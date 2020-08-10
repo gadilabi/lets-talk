@@ -3,17 +3,27 @@ var templateOutput = document.createElement("template");
 templateOutput.innerHTML = `
 
 <style>
-    #output {
-        border: 1px solid black;
-        width: 400px;
-        height: 400px;
 
+	#component{
+		width: 100%;
+		height: 100%;
+		background-color: #082a49;
+
+	}
+
+    #output {
+		overflow: auto;
+        border: 1px solid black;
+		margin-right: 80px;
+		height: 100%;
+		background-color: white;
     }
 
 </style>
 
+<div id="component">
 
-<div id="output">
+<div id="output"></div>
 
 </div>
 
@@ -23,61 +33,62 @@ templateOutput.innerHTML = `
 
 class Output extends HTMLElement {
 
-    constructor() {
-        super();
+	constructor() {
+		super();
 
-        this.attachShadow({
+		this.attachShadow({
 
-            mode: "open"
-        });
+			mode: "open"
+		});
 
-        this.shadowRoot.appendChild(templateOutput.content.cloneNode(true));
+		this.shadowRoot.appendChild(templateOutput.content.cloneNode(true));
 
-        this.output = this.shadowRoot.querySelector('#output');
-
-        //Create connection to ws on server
-        this.socket = io.connect("http://localhost:3000/admin");
+		this.output = this.shadowRoot.querySelector('#output');
 
 
+	}
 
+	connectedCallback() {
 
-    }
+		const that = this;
 
-    connectedCallback() {
+		this.addEventListener('send-msg', function (e) {
+			that.addMessage(e.detail);
 
-        const that = this;
+			window.socket.emit("chat", {
+				msg: e.detail.msg,
+				handle: e.detail.handle,
 
-        this.addEventListener('send-msg', function (e) {
-            that.addMessage(e.detail.handle, e.detail.msg);
-
-            that.socket.emit("chat", {
-                message: e.detail.msg,
-                handle: e.detail.handle,
-
-
-            });
+			});
 
 
 
-        });
+		});
 
-        this.socket.on('chat', function (data) {
-            that.addMessage(data.message, data.handle);
+		this.addEventListener('create', function (e) {
 
+			that.addMessage("", `The ID for this room is: ${e.detail.roomId}`);
 
-        });
+			window.socket.on('chat', function (data) {
+				that.addMessage(data.handle, data.message);
 
-    }
+			});
 
-    addMessage(handle, msg) {
-
-        const msgElement = document.createElement("app-message");
-        msgElement.setValues(handle, msg);
-
-        this.output.appendChild(msgElement);
+		});
 
 
-    }
+	}
+
+	addMessage(data) {
+
+		const msgElement = document.createElement("app-message");
+		msgElement.setValues(data.handle, data.msg);
+
+		this.output.appendChild(msgElement);
+
+		this.output.scrollTop = this.output.scrollHeight;
+
+	}
 
 
 }

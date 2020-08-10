@@ -2,59 +2,116 @@ var templateChatInput = document.createElement("template");
 
 templateChatInput.innerHTML = `
 
+<style>
 
-    <input id="msg" placeholder="message" />
+	#component{
+		display: flex;
+		align-items:center;
+		height: 100%;
+		background-color: #082a49;
 
-    <button id="send">Send</button>
+
+	}
+
+	#wrapper{
+		flex-grow:1;
+		display: flex;
+		margin-right: 80px;
+		font-size: 30px;
+
+	}
+
+	input{
+		flex-grow: 1;
+	}
+
+	button{
+		all: unset;
+		text-align: center;
+		background-color: #00539CFF;
+		color:white;
+		width:100px;
+	}
+
+</style>
+
+<div id="component">
+
+	<div id="wrapper">
+
+		<input id="msg" placeholder="message" />
+		<button id="send">Send</button>
+
+	</div>
+
+</div>
+
 
 `;
 
 class ChatInput extends HTMLElement {
 
-    constructor() {
-        super();
+	constructor() {
+		super();
 
-        this.attachShadow({
+		this.attachShadow({
 
-            mode: 'open'
-        });
+			mode: 'open'
+		});
 
-        this.shadowRoot.appendChild(templateChatInput.content.cloneNode(true));
+		this.shadowRoot.appendChild(templateChatInput.content.cloneNode(true));
 
-        this.input = this.shadowRoot.querySelector('#msg');
-        this.send = this.shadowRoot.querySelector('#send');
+		this.input = this.shadowRoot.querySelector('#msg');
+		this.send = this.shadowRoot.querySelector('#send');
 
-    }
+	}
 
-    connectedCallback() {
-        
-        const that = this;
-        
-        this.send.addEventListener('click', function (e) {
-            
-            
-            const event = new CustomEvent('send-msg', {
+	connectedCallback() {
 
-                //The values for bubble and composed allow event to bubble outside of shadow dom
-                bubbles: true,
-                composed: true,
-                //The current number page to be sent to server
-                detail: {
-                    
-                    msg: that.input.value,
-                    handle: Math.random()
+		const that = this;
 
-                }
+		this.input.addEventListener('keydown', function (e) {
+			if (e.key === "Enter")
+				that.fireSendMsg(e);
 
 
-            });
-            
-            document.querySelector('app-output').dispatchEvent(event);
+		});
+
+		this.send.addEventListener('click', function (e) {
+
+			that.fireSendMsg(e);
+
+		});
+
+	}
+
+	fireSendMsg() {
+
+		const event = new CustomEvent('send-msg', {
+
+			//The values for bubble and composed allow event to bubble outside of shadow dom
+			bubbles: true,
+			composed: true,
+			//The current number page to be sent to server
+			detail: {
+
+				msg: this.input.value,
+				handle: "User"
+
+			}
 
 
-        });
+		});
+		
 
-    }
+		this.input.value = "";
+		this.input.focus();
+
+		document.querySelector('app-chat').shadowRoot.querySelector("app-output").dispatchEvent(event);
+
+
+
+	}
 
 
 }

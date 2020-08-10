@@ -14,9 +14,9 @@ templateMenu.innerHTML = `
 
 <div id="menu">
 
-	<app-screen-main></app-screen-main>
-	<app-screen-create></app-screen-create>
-	<app-screen-join></app-screen-join>
+	<app-main-menu></app-main-menu>
+	<app-join-menu></app-join-menu>
+	<app-create-menu></app-create-menu>
 
 </div>
 
@@ -36,38 +36,42 @@ class Menu extends HTMLElement {
 
 		this.shadowRoot.appendChild(templateMenu.content.cloneNode(true));
 
+		//		this.style.display = "none";
+
+		this.status = "open";
+
 		this.main = this.shadowRoot.querySelector('app-screen-main');
-		this.create = this.shadowRoot.querySelector('app-screen-create');
 		this.join = this.shadowRoot.querySelector('app-screen-join');
 
 	}
 
 	connectedCallback() {
-		this.addEventListener('next-screen', function (e) {
 
-			this.main.style.display = "none";
+		const that = this;
 
-			switch (e.detail.option) {
-				case "create":
-					this.create.style.display = "block";
-					break;
-				case "join":
-					this.join.style.display = "block";
-					break;
+		this.addEventListener("create-room", function (e) {
 
-			}
+			that.close();
 
 		});
 
-		this.addEventListener('back', function (e) {
+		this.addEventListener("join-room", function (e) {
 
-			this.main.style.display = "block";
-			this.create.style.display = "none";
-			this.join.style.display = "none";
-
+			that.close();
 
 		});
 
+	}
+
+	open() {
+		this.status = "open";
+		this.style.display = "flex";
+	}
+
+	close() {
+
+		this.status = "close";
+		this.style.display = "none";
 
 	}
 

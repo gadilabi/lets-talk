@@ -4,17 +4,25 @@ templateMessage.innerHTML = `
 
 <style>
     #message {
-        width: 400px;
+		display:flex;
+		margin: 20px;
+        max-width: 80%;
         height: auto;
-
+		color: black;
     }
+
+	#handle{
+		font-weight: bold;
+		margin-right: 5px;
+	}
+
 
 </style>
 
 
 <div id="message">
     <span id="handle"></span>
-    <p id="text"></p>
+    <span id="text"></span>
 </div>
 
 
@@ -23,37 +31,37 @@ templateMessage.innerHTML = `
 
 class Message extends HTMLElement {
 
-    constructor() {
-        super();
+	constructor() {
+		super();
 
-        this.attachShadow({
+		this.attachShadow({
 
-            mode: "open"
-        });
+			mode: "open"
+		});
 
-        this.shadowRoot.appendChild(templateMessage.content.cloneNode(true));
+		this.shadowRoot.appendChild(templateMessage.content.cloneNode(true));
 
-        this.message = this.shadowRoot.querySelector('#message');
-        this.handle = this.shadowRoot.querySelector('#handle');
-        this.text = this.shadowRoot.querySelector('#text');
+		this.message = this.shadowRoot.querySelector('#message');
+		this.handle = this.shadowRoot.querySelector('#handle');
+		this.text = this.shadowRoot.querySelector('#text');
 
-    }
+	}
 
-    connectedCallback() {
-        this.addEventListener('send-msg', function (e) {
-            this.addMessage(e.detail.handle, e.detail.msg);
+	connectedCallback() {
+		this.addEventListener('send-msg', function (e) {
+			this.addMessage(e.detail.handle, e.detail.msg);
 
-        });
+		});
 
-    }
+	}
 
-    setValues(handle, msg) {
+	setValues(handle, msg) {
 
-        this.handle.textContent = handle;
-        this.text.textContent = msg;
+		this.handle.textContent = `${handle}:`;
+		this.text.textContent = msg;
 
 
-    }
+	}
 
 
 }
