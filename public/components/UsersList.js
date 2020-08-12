@@ -65,10 +65,10 @@ class UsersList extends HTMLElement {
 
 		const that = this;
 
-		//		this.addEventListener('create-room', (e) => {
-		//			this.addUser("everyone");
-		//
-		//		});
+		window.socket.on('disconnected', function (id) {
+			that.removeUser(id);
+
+		});
 
 		window.socket.on('someone-join-room', function (data) {
 			window.usersInRoom.push(data);
@@ -97,6 +97,7 @@ class UsersList extends HTMLElement {
 		const div = document.createElement("DIV");
 		div.textContent = handle;
 		div.dataset.handle = handle;
+		div.classList.add("user");
 		div.addEventListener('click', (e) => {
 			const event = new CustomEvent('choose-partner', {
 				bubble: true,
@@ -118,6 +119,18 @@ class UsersList extends HTMLElement {
 		this.usersList.appendChild(div);
 
 		console.log("choose partner");
+
+	}
+
+	removeUser(id) {
+
+		const handle = window.usersInRoom.find((user) => user.id === id).handle;
+
+		//Remove user from the list of users in room
+		window.usersInRoom = window.usersInRoom.filter((user) => user.id !== id);
+
+		//Remove user from users list on screen
+		this.usersList.querySelector(`[data-handle="${handle}"]`).remove();
 
 	}
 

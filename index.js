@@ -50,6 +50,16 @@ io.on('connection', function (socket) {
 				socket.to(data.to).emit('chat', data);
 		});
 
+		socket.on('disconnect', function () {
+
+			//Remove user from room
+			handlesByRoom[room] = handlesByRoom[room].filter((user) => user.id !== socket.id);
+
+			//Broadcast id of disconnected user
+			socket.broadcast.to(room).emit('disconnected', socket.id);
+		});
+
+
 	});
 
 	socket.on('join-room', function (data) {
@@ -82,22 +92,15 @@ io.on('connection', function (socket) {
 
 		});
 
+		socket.on('disconnect', function () {
+			//Remove user from room
+			handlesByRoom[room] = handlesByRoom[room].filter((user) => user.id !== socket.id);
 
+			//Broadcast id of disconnected user
+			socket.broadcast.to(room).emit('disconnected', socket.id);
+		});
 	});
 
-	//	socket.on('disconnect', function () {
-	//
-	//		socket.emit('disconnected', {});
-	//
-	//		socket.on('remove', function (data) {
-	//			handlesByRoom[data.room] = handlesByRoom[data.room].filter((entry) => entry.handle === data.handle);
-	//			
-	//			
-	//
-	//		});
-	//
-	//
-	//	});
 
 
 });
