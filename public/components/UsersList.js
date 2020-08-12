@@ -39,7 +39,6 @@ templateUsersList.innerHTML = `
 		Users
 		</h3>
 
-
 	</div>	
 
 </div>
@@ -60,41 +59,65 @@ class UsersList extends HTMLElement {
 
 		this.usersList = this.shadowRoot.querySelector("#users");
 
-
 	}
 
 	connectedCallback() {
 
 		const that = this;
 
-		this.addEventListener('create-room', (e) => {
-			const div = document.createElement("DIV");
-			div.textContent = e.detail.handle;
-			that.usersList.appendChild(div);
-
-
-		});
+		//		this.addEventListener('create-room', (e) => {
+		//			this.addUser("everyone");
+		//
+		//		});
 
 		window.socket.on('someone-join-room', function (data) {
-			const div = document.createElement("DIV");
-			div.textContent = data.handle;
-			that.usersList.appendChild(div);
-
-
-
+			window.usersInRoom.push(data);
+			that.addUser(data.handle);
 		});
 
 		window.socket.on('users-list', function (data) {
 
-			data.forEach((user) => {
-				const div = document.createElement("DIV");
-				div.textContent = user;
-				that.usersList.appendChild(div);
+			window.usersInRoom = data;
+			window.handles = window.usersInRoom.map((entry) => entry.handle);
+			that.addUser("everyone");
+
+			window.handles.forEach((user) => {
+				if (user !== window.handle)
+					that.addUser(user);
 
 			});
 
 
 		});
+
+	}
+
+	addUser(handle) {
+
+		const div = document.createElement("DIV");
+		div.textContent = handle;
+		div.dataset.handle = handle;
+		div.addEventListener('click', (e) => {
+			const event = new CustomEvent('choose-partner', {
+				bubble: true,
+				composed: true,
+				detail: {
+					partner: handle
+
+				}
+
+
+			});
+
+			window.partner = handle;
+			document.querySelector('app-chat').shadowRoot.querySelector('app-output').dispatchEvent(event);
+
+
+		});
+
+		this.usersList.appendChild(div);
+
+		console.log("choose partner");
 
 	}
 

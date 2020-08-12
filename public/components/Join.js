@@ -149,6 +149,10 @@ class JoinMenu extends HTMLElement {
 			const data = await res.json();
 
 			if (data.rooms.includes(that.inputRoomName.value)) {
+
+				window.room = that.inputRoomName.value;
+				window.handle = that.inputHandle.value;
+
 				socket.emit('join-room', {
 					roomName: that.inputRoomName.value,
 					handle: that.inputHandle.value

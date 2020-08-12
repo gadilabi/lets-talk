@@ -87,6 +87,19 @@ class ChatInput extends HTMLElement {
 
 	fireSendMsg() {
 
+		const to = (window.usersInRoom.find(user => user.handle === window.partner)) ? window.usersInRoom.find(user => user.handle === window.partner).id : "everyone";
+
+	
+		
+		console.log(to);
+
+		window.socket.emit("chat", {
+			msg: this.input.value,
+			handle: window.handle,
+			to: to
+		});
+
+
 		const event = new CustomEvent('send-msg', {
 
 			//The values for bubble and composed allow event to bubble outside of shadow dom
@@ -96,13 +109,14 @@ class ChatInput extends HTMLElement {
 			detail: {
 
 				msg: this.input.value,
-				handle: "User"
+				handle: window.handle,
+				to
 
 			}
 
 
 		});
-		
+
 
 		this.input.value = "";
 		this.input.focus();

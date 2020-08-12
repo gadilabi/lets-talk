@@ -21,17 +21,6 @@ const io = socket(server);
 const users = [];
 const rooms = [];
 const handlesByRoom = {};
-//const room = io.of(/^\/\w+$/);
-
-//room.on('connection', function (socket) {
-//
-//	socket.on('chat', function (data) {
-//		socket.broadcast.emit('chat', data);
-//
-//		console.log(data);
-//	});
-//
-//});
 
 io.on('connection', function (socket) {
 
@@ -40,14 +29,25 @@ io.on('connection', function (socket) {
 		const room = data.roomName;
 		socket.join(room);
 
-		handlesByRoom[room] = [data.handle];
+		handlesByRoom[room] = [{
+			handle: data.handle,
+			id: socket.id
+		}];
+
+		socket.emit('users-list', handlesByRoom[room]);
+
 
 		rooms.push(room);
 		users.push(new User(socket.id, data.handle, data.roomName));
 
 		socket.on('chat', function (data) {
-			socket.broadcast.to(room).emit('chat', data);
+			console.log(data);
 
+
+			if (data.to === "everyone")
+				socket.broadcast.to(room).emit('chat', data);
+			else
+				socket.to(data.to).emit('chat', data);
 		});
 
 	});
@@ -56,22 +56,48 @@ io.on('connection', function (socket) {
 
 		const room = data.roomName;
 		socket.join(room);
-
-		handlesByRoom[room].push(data.handle);
-		users.push(new User(socket.id, data.handle, data.roomName));
-
-		socket.broadcast.to(room).emit('someone-join-room', data);
-
+		handlesByRoom[room].push({
+			handle: data.handle,
+			id: socket.id
+		});
 
 		socket.emit('users-list', handlesByRoom[room]);
 
+
+		users.push(new User(socket.id, data.handle, data.roomName));
+
+		socket.broadcast.to(room).emit('someone-join-room', {
+			handle: data.handle,
+			id: socket.id
+		});
+
+
 		socket.on('chat', function (data) {
-			socket.broadcast.to(room).emit('chat', data);
+			console.log(data);
+
+			if (data.to === "everyone")
+				socket.broadcast.to(room).emit('chat', data);
+			else
+				socket.to(data.to).emit('chat', data);
 
 		});
 
 
 	});
+
+	//	socket.on('disconnect', function () {
+	//
+	//		socket.emit('disconnected', {});
+	//
+	//		socket.on('remove', function (data) {
+	//			handlesByRoom[data.room] = handlesByRoom[data.room].filter((entry) => entry.handle === data.handle);
+	//			
+	//			
+	//
+	//		});
+	//
+	//
+	//	});
 
 
 });

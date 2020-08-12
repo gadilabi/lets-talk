@@ -161,6 +161,8 @@ class CreateMenu extends HTMLElement {
 				return;
 			}
 
+			window.room = that.inputRoomName.value;
+			window.handle = that.inputHandle.value;
 
 			window.socket.emit('create-room', {
 				handle: that.inputHandle.value,

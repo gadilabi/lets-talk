@@ -33,6 +33,12 @@ templateChat.innerHTML = `
 
 	}
 
+	#private{
+		display: none;
+		grid-area: private;
+		
+	}
+
 	app-input{
 		grid-area: input;
 
