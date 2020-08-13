@@ -18,27 +18,37 @@ app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
 const io = socket(server);
-const users = [];
-const rooms = [];
 const handlesByRoom = {};
 
 io.on('connection', function (socket) {
 
-	socket.on('create-room', function (data) {
+	socket.on('enter-room', function (data) {
 
 		const room = data.roomName;
 		socket.join(room);
 
-		handlesByRoom[room] = [{
-			handle: data.handle,
-			id: socket.id
-		}];
+		if (!Object.keys(handlesByRoom).includes(room)) {
+
+			handlesByRoom[room] = [{
+				handle: data.handle,
+				id: socket.id
+			}];
+
+		} else {
+
+			handlesByRoom[room].push({
+				handle: data.handle,
+				id: socket.id
+			});
+
+			socket.broadcast.to(room).emit('someone-join-room', {
+				handle: data.handle,
+				id: socket.id
+			});
+
+		}
 
 		socket.emit('users-list', handlesByRoom[room]);
-
-
-		rooms.push(room);
-		users.push(new User(socket.id, data.handle, data.roomName));
 
 		socket.on('chat', function (data) {
 			console.log(data);
@@ -61,54 +71,13 @@ io.on('connection', function (socket) {
 
 
 	});
-
-	socket.on('join-room', function (data) {
-
-		const room = data.roomName;
-		socket.join(room);
-		handlesByRoom[room].push({
-			handle: data.handle,
-			id: socket.id
-		});
-
-		socket.emit('users-list', handlesByRoom[room]);
-
-
-		users.push(new User(socket.id, data.handle, data.roomName));
-
-		socket.broadcast.to(room).emit('someone-join-room', {
-			handle: data.handle,
-			id: socket.id
-		});
-
-
-		socket.on('chat', function (data) {
-			console.log(data);
-
-			if (data.to === "everyone")
-				socket.broadcast.to(room).emit('chat', data);
-			else
-				socket.to(data.to).emit('chat', data);
-
-		});
-
-		socket.on('disconnect', function () {
-			//Remove user from room
-			handlesByRoom[room] = handlesByRoom[room].filter((user) => user.id !== socket.id);
-
-			//Broadcast id of disconnected user
-			socket.broadcast.to(room).emit('disconnected', socket.id);
-		});
-	});
-
-
 
 });
 
 app.get('/', (req, res) => {
 
 	const roomsJSON = JSON.stringify({
-		rooms: rooms
+		rooms: Object.keys(handlesByRoom)
 	});
 	res.render('index', {
 		rooms: roomsJSON
@@ -126,6 +95,8 @@ app.get("/get_id", (req, res) => {
 
 
 app.get("/get_rooms", (req, res) => {
+
+	const rooms = Object.keys(handlesByRoom);
 
 	res.json({
 		rooms

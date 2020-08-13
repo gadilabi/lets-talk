@@ -84,13 +84,7 @@ class Chat extends HTMLElement {
 
 		const that = this;
 
-		that.addEventListener("create-room", function (e) {
-
-			that.open();
-
-		});
-
-		that.addEventListener("join-room", function (e) {
+		that.addEventListener("enter-room", function (e) {
 
 			that.open();
 

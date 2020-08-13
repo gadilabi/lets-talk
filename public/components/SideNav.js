@@ -67,18 +67,10 @@ class SideNav extends HTMLElement {
 
 		const that = this;
 
-		this.addEventListener('create-room', function (e) {
+		this.addEventListener('enter-room', function (e) {
 			that.roomName.textContent = `Room: ${e.detail.roomName}`;
 
 		});
-
-		this.addEventListener('join-room', function (e) {
-			that.roomName.textContent = `Room: ${e.detail.roomName}`;
-
-
-		});
-
-
 
 	}
 

@@ -49,13 +49,7 @@ class Menu extends HTMLElement {
 
 		const that = this;
 
-		this.addEventListener("create-room", function (e) {
-
-			that.close();
-
-		});
-
-		this.addEventListener("join-room", function (e) {
+		this.addEventListener("enter-room", function (e) {
 
 			that.close();
 

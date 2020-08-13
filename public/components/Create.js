@@ -139,37 +139,43 @@ class CreateMenu extends HTMLElement {
 
 		const that = this;
 
+		//If create menu is selected open it
 		this.addEventListener('next-menu', function (e) {
-
-			console.log("opened create");
 			that.open();
-
 		});
 
 
-
 		//If user choose join
-		this.create.addEventListener('click', function (e) {
+		this.create.addEventListener('click', async function (e) {
 
 			//If no name was given do nothing
 			if (that.inputRoomName.value === "" || that.inputHandle.value === "")
 				return;
 
-			if (that.doesRoomExists(that.inputRoomName.value)) {
+			//Get the list of existing rooms from server
+			const res = await fetch('/get_rooms');
+			const data = await res.json();
+			const rooms = data.rooms;
+
+			//If room name exists then show warning and stop process
+			if (rooms.includes(that.inputRoomName.value)) {
 
 				that.showWarning('Room name in use');
 				return;
 			}
 
+			//if room name is origianl set the globals room and handle with the values
 			window.room = that.inputRoomName.value;
 			window.handle = that.inputHandle.value;
 
-			window.socket.emit('create-room', {
+			//Create room on server and enter
+			window.socket.emit('enter-room', {
 				handle: that.inputHandle.value,
 				roomName: that.inputRoomName.value
 			});
 
-			const event = new CustomEvent('create-room', {
+			//Inform components that room was created and you enter the chat
+			const event = new CustomEvent('enter-room', {
 
 				detail: {
 					roomName: that.inputRoomName.value,
@@ -180,7 +186,6 @@ class CreateMenu extends HTMLElement {
 
 			document.querySelector("app-menu").dispatchEvent(event);
 			document.querySelector("app-chat").dispatchEvent(event);
-			document.querySelector("app-chat").shadowRoot.querySelector('app-side-nav').shadowRoot.querySelector('app-users-list').dispatchEvent(event);
 			document.querySelector("app-chat").shadowRoot.querySelector('app-side-nav').dispatchEvent(event);
 
 
@@ -214,11 +219,6 @@ class CreateMenu extends HTMLElement {
 		}, 1500);
 
 
-
-	}
-
-	doesRoomExists(room) {
-		return window.rooms.includes(room);
 
 	}
 

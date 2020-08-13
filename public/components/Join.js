@@ -153,12 +153,12 @@ class JoinMenu extends HTMLElement {
 				window.room = that.inputRoomName.value;
 				window.handle = that.inputHandle.value;
 
-				socket.emit('join-room', {
+				socket.emit('enter-room', {
 					roomName: that.inputRoomName.value,
 					handle: that.inputHandle.value
 				});
 
-				const event = new CustomEvent('join-room', {
+				const event = new CustomEvent('enter-room', {
 
 					detail: {
 						roomName: that.inputRoomName.value
