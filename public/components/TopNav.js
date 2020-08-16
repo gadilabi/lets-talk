@@ -8,16 +8,23 @@ templateTopNav.innerHTML = `
 		width:100%;
 		height:100%;
 		background-color: #082a49;
-
+		
 	}
 
-	
+	#logo>img{
+		height:95%;
+		margin: 20px 0 0 20px;
+	}
 
 </style>
 
 <div id="component">
 
-	
+	<div id="logo">
+		<img src="images/logo.svg" alt="">
+
+	</div>
+
 
 	
 

@@ -6,10 +6,7 @@ templateCreateMenu.innerHTML = `
 	#wrapper{
 
 		display: grid;
-		place-items: center;
-        width: 100vw;
-        height: 100vh;
-		
+		place-items: center;		
 
 	}
     
@@ -19,10 +16,6 @@ templateCreateMenu.innerHTML = `
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		width: 400px;
-		height: 400px;
-		background-color: #ADEFD1FF;
-		position: relative;
 
     }
 
@@ -36,15 +29,6 @@ templateCreateMenu.innerHTML = `
 		position: absolute;
 		top: 0;
 		width: 100%;
-
-	}
-
-	h1{
-		text-align: center;
-		margin:0;
-		background-color: #00539CFF;
-		color:white;
-		font-size:45px;
 
 	}
 	
@@ -65,9 +49,10 @@ templateCreateMenu.innerHTML = `
 
 	input{
 		all:unset;
-		border: 1px solid black;
+		border-bottom: 1px solid white;
 		width: 150px;
 		margin-bottom: 20px;
+		color: white;
 		
 	}
 
@@ -92,11 +77,6 @@ templateCreateMenu.innerHTML = `
 <div id="wrapper">
 
 	<div id="menu">
-
-		<div id="banner">
-			<h1>Create Room</h1>
-		</div>
-
 
 		<span id="warning"></span>
 		<input id="handle" placeholder="Handle" />
@@ -225,7 +205,7 @@ class CreateMenu extends HTMLElement {
 
 	open() {
 		this.status = "open";
-		this.style.display = "flex";
+		this.style.display = "block";
 	}
 
 	close() {

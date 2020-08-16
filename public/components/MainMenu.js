@@ -7,9 +7,7 @@ templateMainMenu.innerHTML = `
 	#wrapper{
 
 		display: grid;
-		place-items: center;
-        width: 100vw;
-        height: 100vh;
+		justify-content: center;
 		
 
 	}
@@ -19,37 +17,18 @@ templateMainMenu.innerHTML = `
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		width: 400px;
-		height: 400px;
-		background-color: #ADEFD1FF;
 		position: relative;
-
+	
     }
 
-	#banner{
 
-		position: absolute;
-		top: 0;
-		width: 100%;
-
-}
-
-	h1{
-		text-align: center;
-		margin:0;
-		background-color: #00539CFF;
-		color:white;
-		font-size:45px;
-
-	}
-	
 	button{
 
 		all:unset;
 		box-sizing: border-box;
-		width: 150px;
-		margin-bottom: 10px;
-		font-size: 25px;
+		width: 250px;
+		margin-bottom: 20px;
+		font-size: 35px;
 		background-color: #00539CFF;
 		color: white;
 		text-align: center;
@@ -65,10 +44,6 @@ templateMainMenu.innerHTML = `
 
 	<div id="screen">
 
-		<div id="banner">
-			<h1> Chat App </h1>
-
-		</div>
 		<button id="create">Create Room</button>
 		<button id="join">Join Room</button>
 
@@ -159,7 +134,7 @@ class MainMenu extends HTMLElement {
 
 	open() {
 		this.status = "open";
-		this.style.display = "flex";
+		this.style.display = "block";
 	}
 
 

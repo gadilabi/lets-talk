@@ -3,20 +3,45 @@ var templateMenu = document.createElement("template");
 templateMenu.innerHTML = `
 
 <style>
-    #message {
-        width: 400px;
-        height: auto;
 
-    }
+
+#component{
+	width:100vw;
+	height:100vh;
+	background-color: #082a49;
+
+}
+
+
+#logo{
+	display:flex;
+	justify-content:center;
+}
+
+#logo>img{
+	height: 200px;
+	margin: 50px 0 100px 0;
+
+}
+
+
 
 </style>
 
 
-<div id="menu">
+<div id="component">
+	<div id="logo">
+		<img src="images/logo.svg" alt="">
 
-	<app-main-menu></app-main-menu>
-	<app-join-menu></app-join-menu>
-	<app-create-menu></app-create-menu>
+	</div>
+
+	<div id="menu">
+
+		<app-main-menu></app-main-menu>
+		<app-join-menu></app-join-menu>
+		<app-create-menu></app-create-menu>
+
+	</div>
 
 </div>
 

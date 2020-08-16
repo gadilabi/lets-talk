@@ -23,7 +23,7 @@ templateSideNav.innerHTML = `
 
 	#room-name{
 		color:white;
-		margin: 20px 20px 0px 20px;
+		margin: 0px 20px 0px 20px;
 
 
 	}

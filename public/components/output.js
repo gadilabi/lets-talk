@@ -25,14 +25,50 @@ templateOutput.innerHTML = `
 		height:10%;
 		background-color: #082a49;
 		color:white;
-		margin: 0 80px 10px 0;
+		margin: 0 80px auto 0;
 	}
 
+	#above-output{
+		display:flex;
+		justify-content: space-between;
+		margin: 0px 80px 20px 0px;
+	}
+
+	#leave{
+		all: unset;
+		background-color: #00539c;	
+		color: white;
+		width: 150px;
+		font-size: 25px;
+		text-align: center;
+		cursor: pointer;
+		position: relative;
+	}
+
+	#leave::before{
+		content: url('images/leave.svg');
+		position: absolute;
+		left: 0;
+		width: 25px;
+		height:25px;
+
+	}
+
+	
+
+	
 
 </style>
 
 <div id="component">
-	<h2 id="talking-to">Talking to everyone</h2>
+
+	<div id="above-output">
+		<h2 id="talking-to">Talking to everyone</h2>
+		<button id="leave">
+			Leave
+		</button>
+
+	</div>
 
 	<div id="output">
 
@@ -60,6 +96,8 @@ class Output extends HTMLElement {
 
 		this.shadowRoot.appendChild(templateOutput.content.cloneNode(true));
 
+		this.leave = this.shadowRoot.querySelector('#leave');
+		
 		this.output = this.shadowRoot.querySelector('#output');
 		window.partner = "everyone";
 		this.conversations = {
@@ -76,6 +114,13 @@ class Output extends HTMLElement {
 		const that = this;
 
 
+		this.leave.addEventListener('click', (e)=>{
+			
+			window.socket.emit('disconnect');
+			window.location.assign('/');
+			
+		});
+		
 		//When user push a user name
 		this.addEventListener('choose-partner', function (e) {
 
@@ -159,10 +204,6 @@ class Output extends HTMLElement {
 			toHandle = "everyone";
 
 		}
-
-		console.log(this.conversations);
-		console.log(data, direction, toHandle);
-
 
 		const msgElement = document.createElement("app-message");
 		msgElement.setValues(data.handle, data.msg);

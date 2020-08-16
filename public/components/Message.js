@@ -4,27 +4,49 @@ templateMessage.innerHTML = `
 
 <style>
     #message {
-		display:flex;
 		margin: 20px;
         max-width: 80%;
         height: auto;
 		color: black;
-    }
+		background-color: green;
+		color:white;
+		border-radius: 5px;
+    	width: min-content;
+		padding-right: 10px;
+
+	}
 
 	#handle{
 		font-weight: bold;
-		margin-right: 5px;
+		margin-left: 5px;
 	}
+
+	#text{
+		margin-left: 5px;
+
+	}
+
+	#details{
+		margin-bottom: 5px;
+
+	}
+
+
 
 
 </style>
 
+<div id="component">
 
-<div id="message">
-    <span id="handle"></span>
-    <span id="text"></span>
+	<div id="message">
+		<div id="details">
+			<span id="handle"></span>
+		</div>
+
+		<span id="text"></span>
+	</div>
+
 </div>
-
 
 
 `;
@@ -57,7 +79,7 @@ class Message extends HTMLElement {
 
 	setValues(handle, msg) {
 
-		this.handle.textContent = `${handle}:`;
+		this.handle.textContent = `${handle}`;
 		this.text.textContent = msg;
 
 
