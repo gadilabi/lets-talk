@@ -69,6 +69,44 @@ io.on('connection', function (socket) {
 			socket.broadcast.to(room).emit('disconnected', socket.id);
 		});
 
+		socket.on('offer', (msg) => {
+			const {
+				type,
+				from,
+				to
+			} = msg;
+			console.log({
+				type,
+				from,
+				to
+			});
+
+			socket.to(msg.to.id).emit('offer', msg);
+
+
+		});
+
+		socket.on('answer', (msg) => {
+			const {
+				type,
+				from,
+				to
+			} = msg;
+			console.log({
+				type,
+				from,
+				to
+			});
+			socket.to(msg.to.id).emit('answer', msg);
+
+		});
+
+		socket.on('new-ice-candidate', (msg) => {
+
+			socket.to(msg.to.id).emit('new-ice-candidate', msg);
+
+		});
+
 
 	});
 

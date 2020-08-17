@@ -26,6 +26,7 @@ templateOutput.innerHTML = `
 		background-color: #082a49;
 		color:white;
 		margin: 0 80px auto 0;
+		margin-right: auto;
 	}
 
 	#above-output{
@@ -54,8 +55,19 @@ templateOutput.innerHTML = `
 
 	}
 
-	
+	#video-btn{
+		all:unset;
+		width: 75px;
+		height: 29.6px;
+		margin-right:20px;
+		background-color: #00539c;
+		text-align:center;
+	}
 
+	#video-btn>img{
+		height: 100%;
+
+	}
 	
 
 </style>
@@ -64,6 +76,10 @@ templateOutput.innerHTML = `
 
 	<div id="above-output">
 		<h2 id="talking-to">Talking to everyone</h2>
+
+		<button id="video-btn">
+			<img src="images/video.svg" />
+		</button>
 		<button id="leave">
 			Leave
 		</button>
@@ -72,7 +88,11 @@ templateOutput.innerHTML = `
 
 	<div id="output">
 
+
 		<div data-partner="everyone" class="messages"></div>
+		<div id="videos">
+			<video autoplay></video>
+		</div>
 
 	</div>
 	
@@ -97,7 +117,10 @@ class Output extends HTMLElement {
 		this.shadowRoot.appendChild(templateOutput.content.cloneNode(true));
 
 		this.leave = this.shadowRoot.querySelector('#leave');
-		
+
+		this.videoBtn = this.shadowRoot.querySelector("#video-btn");
+
+		this.videos = this.shadowRoot.querySelector("#videos");
 		this.output = this.shadowRoot.querySelector('#output');
 		window.partner = "everyone";
 		this.conversations = {
@@ -113,14 +136,24 @@ class Output extends HTMLElement {
 
 		const that = this;
 
+		//Add video elements
+		//		this.addVideos();
 
-		this.leave.addEventListener('click', (e)=>{
-			
+		this.videoBtn.addEventListener('click', (e) => {
+
+			//Initiate the RTC connection with handle
+			establishConnection(window.partner, "active");
+
+
+		});
+
+		this.leave.addEventListener('click', (e) => {
+
 			window.socket.emit('disconnect');
 			window.location.assign('/');
-			
+
 		});
-		
+
 		//When user push a user name
 		this.addEventListener('choose-partner', function (e) {
 
@@ -171,6 +204,22 @@ class Output extends HTMLElement {
 				that.addMessage(data, "incoming");
 
 			}
+
+
+		});
+
+
+
+	}
+
+	addVideos() {
+
+		window.usersInRoom.forEach((user) => {
+
+			const video = document.createElement('video');
+			video.dataset.handle = window.partner;
+
+			this.videos.appendChild(video);
 
 
 		});

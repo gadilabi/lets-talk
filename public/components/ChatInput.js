@@ -87,10 +87,12 @@ class ChatInput extends HTMLElement {
 
 	fireSendMsg() {
 
-		const to = (window.usersInRoom.find(user => user.handle === window.partner)) ? window.usersInRoom.find(user => user.handle === window.partner).id : "everyone";
+		const to = (window.usersInRoom.find(user => user.handle === window.partner)) ?
+			window.usersInRoom.find(user => user.handle === window.partner).id :
+			"everyone";
 
-	
-		
+
+
 		console.log(to);
 
 		window.socket.emit("chat", {
