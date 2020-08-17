@@ -49,7 +49,7 @@ window.socket.on('new-ice-candidate', (e) => {
 });
 
 
-window.socket.on("offer", (e) => {
+window.socket.on("offer", async (e) => {
 
 	//Extract the variables from the message
 	const remoteHandle = e.from.handle;
@@ -57,8 +57,9 @@ window.socket.on("offer", (e) => {
 	const sdp = e.sdp;
 
 	//Initialize the RTC connection
-	establishConnection(remoteHandle, "passive");
+	const v = await establishConnection(remoteHandle, "passive");
 
+	console.log(v);
 	//Create the remote description from the msg 
 	let desc = new RTCSessionDescription(sdp);
 
@@ -93,7 +94,7 @@ window.socket.on("offer", (e) => {
 });
 
 
-function establishConnection(toHandle, role) {
+async function establishConnection(toHandle, role) {
 
 	//Find the id of the current partner
 	const toId = window.usersInRoom.find((user) => user.handle === toHandle).id;
@@ -102,7 +103,7 @@ function establishConnection(toHandle, role) {
 	rtcConnectionsByHandle[toHandle] = new RTCPeerConnection(null);
 
 	//Get local media stream and add it to the connection
-	getLocalMediaStream();
+	await getLocalMediaStream();
 
 	//Set the negotiations handler
 	rtcConnectionsByHandle[toHandle].onnegotiationneeded = (role === "active") ? handleNegotiation : null;
@@ -118,10 +119,10 @@ function establishConnection(toHandle, role) {
 
 
 	//Get the local media stream
-	function getLocalMediaStream() {
+	async function getLocalMediaStream() {
 
 		//Get the video stream
-		navigator.mediaDevices.getUserMedia(constraints)
+		await navigator.mediaDevices.getUserMedia(constraints)
 			.then((stream) => {
 				stream.getTracks().forEach((track) => rtcConnectionsByHandle[toHandle].addTrack(track, stream));
 			}).catch(err => console.log(err));
@@ -209,5 +210,6 @@ function establishConnection(toHandle, role) {
 
 	}
 
+	return 1;
 
 }
