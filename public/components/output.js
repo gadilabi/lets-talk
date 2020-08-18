@@ -136,14 +136,19 @@ class Output extends HTMLElement {
 
 		const that = this;
 
-		//Add video elements
-		//		this.addVideos();
+		this.addEventListener('add-videos', (e) => {
+			console.log("shot");
+
+			//Add video elements
+			this.addVideos(e.detail.handlesList);
+
+		});
+
 
 		this.videoBtn.addEventListener('click', (e) => {
 
-			//Initiate the RTC connection with handle
+			//Initiate the RTC connection with current partner as the caller (thus active)
 			establishConnection(window.partner, "active");
-
 
 		});
 
@@ -157,8 +162,10 @@ class Output extends HTMLElement {
 		//When user push a user name
 		this.addEventListener('choose-partner', function (e) {
 
+			//Extract the new partner from event
 			const partner = e.detail.partner;
 
+			//Update the output header
 			this.talkingTo.textContent = `Talking to ${partner}`;
 
 			//Change the current chat partner
@@ -212,19 +219,21 @@ class Output extends HTMLElement {
 
 	}
 
-	addVideos() {
+	addVideos(handlesList) {
 
-		window.usersInRoom.forEach((user) => {
+		handlesList.forEach((user) => {
 
 			const video = document.createElement('video');
-			video.dataset.handle = window.partner;
+			video.dataset.handle = user;
+			video.setAttribute("autoplay", true);
+
+			//			if (user !== window.handle)
+			//				this.conversations[user][video] = video;
 
 			this.videos.appendChild(video);
 
 
 		});
-
-
 
 	}
 

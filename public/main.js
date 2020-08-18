@@ -1,5 +1,4 @@
 //CREATE THE VIDEO ELEMENTS FROM THE BEGIGING
-//CREATR MSGS WITH FROM AND TO
 const constraints = {
 	video: true,
 	audio: true
@@ -41,9 +40,12 @@ window.socket.on('new-ice-candidate', (e) => {
 	//Create a candidate object
 	const candidate = new RTCIceCandidate(e.candidate);
 
-	//Add candidate to connection
-	rtcConnectionsByHandle[remoteHandler].addIceCandidate(candidate)
-		.catch(err => console.log(err));
+	if (rtcConnectionsByHandle[remoteHandler]) {
+		//Add candidate to connection
+		rtcConnectionsByHandle[remoteHandler].addIceCandidate(candidate)
+			.catch(err => console.log(err));
+
+	}
 
 
 });
@@ -51,15 +53,18 @@ window.socket.on('new-ice-candidate', (e) => {
 
 window.socket.on("offer", async (e) => {
 
+
 	//Extract the variables from the message
 	const remoteHandle = e.from.handle;
 	const remoteId = e.from.id;
 	const sdp = e.sdp;
 
-	//Initialize the RTC connection
-	const v = await establishConnection(remoteHandle, "passive");
+	if (!window.confirm(`Would you like to accept a video call from ${remoteHandle}`))
+		return;
 
-	console.log(v);
+	//Initialize the RTC connection
+	await establishConnection(remoteHandle, "passive");
+
 	//Create the remote description from the msg 
 	let desc = new RTCSessionDescription(sdp);
 
@@ -165,7 +170,7 @@ async function establishConnection(toHandle, role) {
 	function handleTrack(e) {
 
 		//		const remoteVideo = document.querySelector("app-chat").shadowRoot.querySelector("app-output").querySelector(`[data-video="${toHandle}"]`);
-		const remoteVideo = document.querySelector("app-chat").shadowRoot.querySelector("app-output").shadowRoot.querySelector('video');
+		const remoteVideo = document.querySelector("app-chat").shadowRoot.querySelector("app-output").shadowRoot.querySelector(`video[data-handle="${toHandle}"]`);
 
 		console.log(e.streams[0]);
 
@@ -203,10 +208,14 @@ async function establishConnection(toHandle, role) {
 		//Create a candidate object
 		const candidate = new RTCIceCandidate(e.candidate);
 
-		//Add candidate into connection
-		rtcConnectionsByHandle[handle].addIceCandidate(candidate)
-			.catch(reportError);
+		if (rtcConnectionsByHandle[handle]) {
 
+			//Add candidate into connection
+			rtcConnectionsByHandle[handle].addIceCandidate(candidate)
+				.catch(err => console.log(err));
+
+
+		}
 
 	}
 

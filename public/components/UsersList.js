@@ -102,6 +102,8 @@ class UsersList extends HTMLElement {
 		window.socket.on('someone-join-room', function (data) {
 			window.usersInRoom.push(data);
 			that.addUser(data.handle);
+			if (window.handle !== data.handle)
+				that.fireAddVideosEvent([data.handle]);
 		});
 
 		//When connected to a room the server sends a list of all the users in that room
@@ -123,9 +125,26 @@ class UsersList extends HTMLElement {
 
 			});
 
+			that.fireAddVideosEvent(window.handles);
 
 		});
 
+	}
+
+	//Event fired when user list is received from the server
+	fireAddVideosEvent(handlesList) {
+
+		const event = new CustomEvent("add-videos", {
+			bubbles: true,
+			composed: true,
+
+			detail: {
+				handlesList: handlesList
+
+			}
+		});
+
+		document.querySelector("app-chat").shadowRoot.querySelector("app-output").dispatchEvent(event);
 	}
 
 	addUser(handle) {
