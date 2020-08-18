@@ -103,7 +103,7 @@ class UsersList extends HTMLElement {
 			window.usersInRoom.push(data);
 			that.addUser(data.handle);
 			if (window.handle !== data.handle)
-				that.fireAddVideosEvent([data.handle]);
+				that.fireAddConversationsEvent([data.handle]);
 		});
 
 		//When connected to a room the server sends a list of all the users in that room
@@ -125,16 +125,16 @@ class UsersList extends HTMLElement {
 
 			});
 
-			that.fireAddVideosEvent(window.handles);
+			that.fireAddConversationsEvent(window.handles);
 
 		});
 
 	}
 
 	//Event fired when user list is received from the server
-	fireAddVideosEvent(handlesList) {
+	fireAddConversationsEvent(handlesList) {
 
-		const event = new CustomEvent("add-videos", {
+		const event = new CustomEvent("add-partners", {
 			bubbles: true,
 			composed: true,
 

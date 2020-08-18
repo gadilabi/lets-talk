@@ -88,10 +88,11 @@ templateOutput.innerHTML = `
 
 	<div id="output">
 
-
+	<div id="wrapper">
 		<div data-partner="everyone" class="messages"></div>
-		<div id="videos">
-			<video autoplay></video>
+			<div id="videos">
+				<video autoplay></video>
+			</div>
 		</div>
 
 	</div>
@@ -120,11 +121,17 @@ class Output extends HTMLElement {
 
 		this.videoBtn = this.shadowRoot.querySelector("#video-btn");
 
+		this.wrapper = this.shadowRoot.querySelector("#wrapper");
+
 		this.videos = this.shadowRoot.querySelector("#videos");
 		this.output = this.shadowRoot.querySelector('#output');
 		window.partner = "everyone";
 		this.conversations = {
-			everyone: that.shadowRoot.querySelector('[data-partner="everyone"]')
+			everyone: {
+				text: that.shadowRoot.querySelector('[data-partner="everyone"]'),
+				video: null,
+				active: 'text'
+			}
 
 		};
 
@@ -136,14 +143,24 @@ class Output extends HTMLElement {
 
 		const that = this;
 
-		this.addEventListener('add-videos', (e) => {
-			console.log("shot");
+		this.addEventListener('add-partners', (e) => {
 
-			//Add video elements
-			this.addVideos(e.detail.handlesList);
+			this.addPartner(e.detail.handlesList);
 
 		});
 
+
+		this.addEventListener('video-input', (e) => {
+
+			const partner = e.detail.partner;
+			const stream = e.detail.stream;
+
+			this.conversations[partner]['video'].srcObject = stream;
+			this.conversations[partner].active = 'video';
+
+			window.conversations = this.conversations;
+
+		});
 
 		this.videoBtn.addEventListener('click', (e) => {
 
@@ -172,22 +189,24 @@ class Output extends HTMLElement {
 			window.partner = partner;
 
 			//Remove the current conversation from output
-			that.shadowRoot.querySelector('.messages').remove();
+			that.wrapper.remove();
 
-			if (!that.conversations.hasOwnProperty(window.partner)) {
+			//Create a new wrapper
+			const wrapper = document.createElement('DIV');
+			wrapper.id = "wrapper";
 
-				const div = that.addPartner(partner);
+			//Insert the conversation with current partner into the wrapper
+			if (this.conversations[window.partner]['active'] === 'video') {
 
-				//Insert the wrapped messages into the output
-				this.output.appendChild(div);
+				wrapper.appendChild(this.conversations[window.partner]['video']);
+				this.conversations[window.partner]['video'].play();
+			} else
+				wrapper.appendChild(this.conversations[window.partner]['text']);
 
-			} else {
+			//Insert the wrapped messages into the output
+			that.output.appendChild(wrapper);
 
-				//Insert the wrapped messages into the output
-				that.output.appendChild(that.conversations[window.partner]);
-
-			}
-
+			that.wrapper = wrapper;
 
 		});
 
@@ -225,7 +244,7 @@ class Output extends HTMLElement {
 
 			const video = document.createElement('video');
 			video.dataset.handle = user;
-			video.setAttribute("autoplay", true);
+			video.setAttribute("autoplay", "");
 
 			//			if (user !== window.handle)
 			//				this.conversations[user][video] = video;
@@ -237,16 +256,28 @@ class Output extends HTMLElement {
 
 	}
 
-	addPartner(partner) {
+	addPartner(partners) {
 
-		//Create the wrapper for the messages
-		const div = document.createElement("DIV");
-		div.classList.add("messages");
-		div.dataset.partner = partner;
+		partners.forEach((partner) => {
 
-		this.conversations[partner] = div;
+			//Create the wrapper for the messages
+			const msgWrapper = document.createElement("DIV");
+			msgWrapper.classList.add("messages");
+			msgWrapper.dataset.partner = partner;
 
-		return div;
+			//Create a video element
+			const video = document.createElement('video');
+			video.dataset.handle = partner;
+			video.setAttribute("autoplay", "");
+
+			//Add the text and video into the conversations list
+			this.conversations[partner] = {
+				text: msgWrapper,
+				video: video
+			};
+
+		});
+
 
 	}
 
@@ -268,13 +299,13 @@ class Output extends HTMLElement {
 
 
 		if (direction === "incoming" && toHandle === window.handle)
-			this.conversations[data.handle].appendChild(msgElement);
+			this.conversations[data.handle]['text'].appendChild(msgElement);
 		else if (direction === "incoming" && toHandle === "everyone")
-			this.conversations["everyone"].appendChild(msgElement);
+			this.conversations["everyone"]['text'].appendChild(msgElement);
 		else if (direction === "outgoing" && toHandle === "everyone")
-			this.conversations["everyone"].appendChild(msgElement);
+			this.conversations["everyone"]['text'].appendChild(msgElement);
 		else
-			this.conversations[toHandle].appendChild(msgElement);
+			this.conversations[toHandle]['text'].appendChild(msgElement);
 
 
 		this.output.scrollTop = this.output.scrollHeight;

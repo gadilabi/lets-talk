@@ -53,7 +53,6 @@ window.socket.on('new-ice-candidate', (e) => {
 
 window.socket.on("offer", async (e) => {
 
-
 	//Extract the variables from the message
 	const remoteHandle = e.from.handle;
 	const remoteId = e.from.id;
@@ -169,15 +168,34 @@ async function establishConnection(toHandle, role) {
 
 	function handleTrack(e) {
 
-		//		const remoteVideo = document.querySelector("app-chat").shadowRoot.querySelector("app-output").querySelector(`[data-video="${toHandle}"]`);
-		const remoteVideo = document.querySelector("app-chat").shadowRoot.querySelector("app-output").shadowRoot.querySelector(`video[data-handle="${toHandle}"]`);
+		//		const remoteVideo = document.querySelector("app-chat").shadowRoot.querySelector("app-output").shadowRoot.querySelector(`video[data-handle="${toHandle}"]`);
 
-		console.log(e.streams[0]);
+		//		const remoteVideo = document.querySelector("app-chat").shadowRoot.querySelector("app-output").shadowRoot.querySelector(`video`);
 
-		remoteVideo.srcObject = e.streams[0];
+		fireVideoInputEvent(e);
+
+		//		remoteVideo.srcObject = e.streams[0];
 
 	}
 
+	function fireVideoInputEvent(e) {
+
+		const event = new CustomEvent('video-input', {
+			bubbles: true,
+			composed: true,
+
+			detail: {
+				stream: e.streams[0],
+				partner: toHandle
+			}
+
+		});
+
+		const output = document.querySelector("app-chat").shadowRoot.querySelector("app-output");
+
+		output.dispatchEvent(event);
+
+	}
 
 	function handleIceCandidate(e) {
 
