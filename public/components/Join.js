@@ -118,7 +118,9 @@ class JoinMenu extends HTMLElement {
 			if (that.inputRoomName.value === "" || that.inputHandle.value === "")
 				return;
 
-			const res = await fetch('/get_rooms');
+			const res = await fetch('/get_rooms', {
+				cache: 'no-store'
+			});
 			const data = await res.json();
 
 			if (data.rooms.includes(that.inputRoomName.value)) {

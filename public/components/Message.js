@@ -8,12 +8,12 @@ templateMessage.innerHTML = `
         max-width: 80%;
         height: auto;
 		color: black;
-		background-color: green;
+		background-color: #639199;
 		color:white;
 		border-radius: 5px;
-    	width: min-content;
+    	width: 90%;
 		padding-right: 10px;
-
+		padding-bottom: 5px;
 	}
 
 	#handle{
@@ -41,9 +41,10 @@ templateMessage.innerHTML = `
 	<div id="message">
 		<div id="details">
 			<span id="handle"></span>
+			<span id="time"></span>
 		</div>
 
-		<span id="text"></span>
+		<div id="text"></div>
 	</div>
 
 </div>
@@ -66,6 +67,7 @@ class Message extends HTMLElement {
 		this.message = this.shadowRoot.querySelector('#message');
 		this.handle = this.shadowRoot.querySelector('#handle');
 		this.text = this.shadowRoot.querySelector('#text');
+		this.time = this.shadowRoot.querySelector('#time');
 
 	}
 
@@ -81,6 +83,12 @@ class Message extends HTMLElement {
 
 		this.handle.textContent = `${handle}`;
 		this.text.textContent = msg;
+
+		const data = new Date();
+		const hour = data.getHours();
+		const minutes = data.getMinutes();
+
+		this.time.textContent = `${hour}:${minutes}`;
 
 
 	}

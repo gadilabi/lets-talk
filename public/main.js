@@ -58,6 +58,8 @@ window.socket.on("offer", async (e) => {
 	const remoteId = e.from.id;
 	const sdp = e.sdp;
 
+	console.log('offered');
+
 	if (!window.confirm(`Would you like to accept a video call from ${remoteHandle}`))
 		return;
 
@@ -129,6 +131,7 @@ async function establishConnection(toHandle, role) {
 		await navigator.mediaDevices.getUserMedia(constraints)
 			.then((stream) => {
 				stream.getTracks().forEach((track) => rtcConnectionsByHandle[toHandle].addTrack(track, stream));
+				fireVideoInputEvent(window.handle, stream);
 			}).catch(err => console.log(err));
 
 	}
@@ -172,21 +175,21 @@ async function establishConnection(toHandle, role) {
 
 		//		const remoteVideo = document.querySelector("app-chat").shadowRoot.querySelector("app-output").shadowRoot.querySelector(`video`);
 
-		fireVideoInputEvent(e);
+		fireVideoInputEvent(toHandle, e.streams[0]);
 
 		//		remoteVideo.srcObject = e.streams[0];
 
 	}
 
-	function fireVideoInputEvent(e) {
+	function fireVideoInputEvent(partner, stream) {
 
 		const event = new CustomEvent('video-input', {
 			bubbles: true,
 			composed: true,
 
 			detail: {
-				stream: e.streams[0],
-				partner: toHandle
+				stream: stream,
+				partner: partner
 			}
 
 		});

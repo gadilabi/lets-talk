@@ -13,10 +13,9 @@ templateOutput.innerHTML = `
 	}
 
     #output {
-		overflow: auto;
+		overflow: hidden;
         border: 1px solid black;
 		margin-right: 80px;
-		margin-bottom: 30px;
 		height: 90%;
 		background-color: white;
     }
@@ -68,6 +67,44 @@ templateOutput.innerHTML = `
 		height: 100%;
 
 	}
+
+	#wrapper{
+		display: grid;
+		grid-template-columns: min-content auto;
+		grid-template-rows: 100%;
+		height:95%;
+		width:100%;
+
+	}
+
+
+	#videos{
+		height:95%;
+		position: relative;
+	}
+
+	#local-stream{
+		position: absolute;
+		height: 20%;
+		bottom: 0;
+		left: 0;
+		z-index: 100;
+
+	}
+
+	.messages{
+		overflow: auto;
+		height: 95%;
+		flex-grow: 1;
+		
+
+	}
+
+	.remote{
+		height:100%;
+
+	}
+
 	
 
 </style>
@@ -122,6 +159,10 @@ class Output extends HTMLElement {
 		this.videoBtn = this.shadowRoot.querySelector("#video-btn");
 
 		this.wrapper = this.shadowRoot.querySelector("#wrapper");
+		this.messages = that.shadowRoot.querySelector('.messages');
+
+		this.localVideo = document.createElement('video');
+		this.localVideo.id = "local-stream";
 
 		this.videos = this.shadowRoot.querySelector("#videos");
 		this.output = this.shadowRoot.querySelector('#output');
@@ -155,10 +196,22 @@ class Output extends HTMLElement {
 			const partner = e.detail.partner;
 			const stream = e.detail.stream;
 
-			this.conversations[partner]['video'].srcObject = stream;
-			this.conversations[partner].active = 'video';
+			if (partner === window.handle) {
 
-			window.conversations = this.conversations;
+				//Load the stream into the local video element
+				this.localVideo.srcObject = stream;
+
+			} else {
+
+				this.conversations[partner]['video'].srcObject = stream;
+				this.conversations[partner].active = 'video';
+
+				document.querySelector('app-chat').shadowRoot.querySelector('app-side-nav').shadowRoot.querySelector('app-users-list').shadowRoot.querySelector(`.user[data-handle="${partner}"]`).click();
+
+				window.conversations = this.conversations;
+
+			}
+
 
 		});
 
@@ -198,8 +251,22 @@ class Output extends HTMLElement {
 			//Insert the conversation with current partner into the wrapper
 			if (this.conversations[window.partner]['active'] === 'video') {
 
-				wrapper.appendChild(this.conversations[window.partner]['video']);
-				this.conversations[window.partner]['video'].play();
+				//Create a wrapper for the videos
+				const videoWrapper = document.createElement('DIV');
+				videoWrapper.id = "videos";
+
+
+				videoWrapper.appendChild(this.conversations[window.partner]['video']);
+				videoWrapper.appendChild(this.localVideo);
+
+				wrapper.appendChild(videoWrapper);
+				wrapper.appendChild(this.conversations[window.partner]['text']);
+
+				this.localVideo.play()
+					.catch(err => console.log(err));
+
+				this.conversations[window.partner]['video'].play()
+					.catch((err) => console.log(err));
 			} else
 				wrapper.appendChild(this.conversations[window.partner]['text']);
 
@@ -207,6 +274,7 @@ class Output extends HTMLElement {
 			that.output.appendChild(wrapper);
 
 			that.wrapper = wrapper;
+			that.messages = that.shadowRoot.querySelector('.messages');
 
 		});
 
@@ -268,6 +336,7 @@ class Output extends HTMLElement {
 			//Create a video element
 			const video = document.createElement('video');
 			video.dataset.handle = partner;
+			video.classList.add('remote');
 			video.setAttribute("autoplay", "");
 
 			//Add the text and video into the conversations list
@@ -308,7 +377,8 @@ class Output extends HTMLElement {
 			this.conversations[toHandle]['text'].appendChild(msgElement);
 
 
-		this.output.scrollTop = this.output.scrollHeight;
+
+		this.messages.scrollTop = this.messages.scrollHeight;
 
 	}
 

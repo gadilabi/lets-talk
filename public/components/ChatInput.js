@@ -93,7 +93,6 @@ class ChatInput extends HTMLElement {
 
 
 
-		console.log(to);
 
 		window.socket.emit("chat", {
 			msg: this.input.value,

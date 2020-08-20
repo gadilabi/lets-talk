@@ -133,7 +133,9 @@ class CreateMenu extends HTMLElement {
 				return;
 
 			//Get the list of existing rooms from server
-			const res = await fetch('/get_rooms');
+			const res = await fetch('/get_rooms', {
+				cache: 'no-store'
+			});
 			const data = await res.json();
 			const rooms = data.rooms;
 
