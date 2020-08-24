@@ -109,7 +109,7 @@ templateOutput.innerHTML = `
 		left: 0;
 		right: 0;
 		visibility: hidden;
-		margin: 10px auto;
+		margin: auto;
 		width: max-content;
 	}
 
@@ -127,7 +127,7 @@ templateOutput.innerHTML = `
 
 	@media(max-width: 800px){
 		
-		#component{
+		#wrapper{
 			flex-direction: column;
 
 		}
@@ -138,6 +138,34 @@ templateOutput.innerHTML = `
 
 		}
 		
+		#talking-to{
+			display: none;
+
+		}
+	
+		#output{
+			margin: 0px 10px 20px 0px;
+
+
+		}
+
+		#above-output{
+			margin: 0px 10px 20px 0px;
+
+
+		}
+
+		#videos{
+			height: auto;
+			width: 100%;
+
+		}
+
+		.remote{
+			width: 100%;
+			height:100%;
+			object-fit: cover;
+		}
 
 	}
 	
@@ -259,6 +287,9 @@ class Output extends HTMLElement {
 		});
 
 		this.videoBtn.addEventListener('click', (e) => {
+
+			if (window.partner === "everyone")
+				return;
 
 			//Initiate the RTC connection with current partner as the caller (thus active)
 			establishConnection(window.partner, "active");

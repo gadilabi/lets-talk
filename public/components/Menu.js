@@ -24,6 +24,19 @@ templateMenu.innerHTML = `
 
 }
 
+@media(max-width: 600px){
+
+	#logo>img{
+
+		width: 400px;
+		height: auto;
+	margin: 50px 0 100px 0;
+
+	}
+
+
+}
+
 
 
 </style>
@@ -31,7 +44,7 @@ templateMenu.innerHTML = `
 
 <div id="component">
 	<div id="logo">
-		<img src="images/logo.svg" alt="">
+		<img src="images/logo.svg" alt="" />
 
 	</div>
 

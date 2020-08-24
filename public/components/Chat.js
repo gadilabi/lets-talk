@@ -44,6 +44,16 @@ templateChat.innerHTML = `
 
 	}
 
+	@media(max-width: 800px){
+
+		#wrapper{
+			grid-template-rows: 10vh 80vh 10vh;
+			grid-template-columns: 40vw 60vw;
+
+		}
+
+
+	}
 
 </style>
 <div id="wrapper">

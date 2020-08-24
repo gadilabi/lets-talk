@@ -31,6 +31,23 @@ templateChatInput.innerHTML = `
 		background-color: #00539CFF;
 		color:white;
 		width:100px;
+
+	}
+
+	@media(max-width: 800px){
+
+		button{
+			width: max-content;
+			font-size: 20px;
+			flex-grow: 1;
+
+		}
+
+		#wrapper{
+			margin-right: 10px;
+
+		}
+
 	}
 
 </style>

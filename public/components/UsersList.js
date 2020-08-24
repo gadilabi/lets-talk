@@ -19,7 +19,6 @@ templateUsersList.innerHTML = `
 		display: flex;
 		flex-direction: column;
 		color:white;
-		margin: 20px 20px 0px 20px;
 	}
 
 	#room-name{
@@ -46,7 +45,7 @@ templateUsersList.innerHTML = `
 		position: absolute;
 		height: 25px;
 		width: 25px;
-		left: 20px;
+		left: 0px;
 
 	}
 

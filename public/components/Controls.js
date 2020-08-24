@@ -33,7 +33,7 @@ templateControls.innerHTML = `
 	<div id="wrapper">
 
 		<button id="hang-up">
-			<img src="images/hang_up.svg" />
+			<img src="images/hang_up.svg">
 		</button>
 
 	</div>
