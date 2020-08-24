@@ -18,7 +18,27 @@ window.socket = io.connect(`http://localhost:3000/`);
 
 window.rtcConnectionsByHandle = {};
 
-window.stunServers = {};
+window.stunServers = {
+	iceServers: [{
+		urls: "stun:stun.1und1.de:3478"
+	}]
+};
+
+window.socket.on('hang-up', (msg) => {
+
+	console.log("receive hang up");
+	const from = msg.from;
+
+	console.log(window.rtcConnectionsByHandle[from]);
+
+	window.rtcConnectionsByHandle[from].close();
+	console.log(window.rtcConnectionsByHandle[from]);
+
+	window.rtcConnectionsByHandle[from] = null;
+
+	fireHangUpEvent(from);
+
+});
 
 
 window.socket.on('answer', (e) => {
@@ -100,13 +120,33 @@ window.socket.on("offer", async (e) => {
 });
 
 
+function fireHangUpEvent(partner) {
+
+	const event = new CustomEvent('hang-up', {
+
+		bubbles: true,
+		composed: true,
+
+		detail: {
+			partner
+
+		}
+
+	});
+
+	document.querySelector('app-chat').shadowRoot.querySelector('app-output').dispatchEvent(event);
+
+
+}
+
+
 async function establishConnection(toHandle, role) {
 
 	//Find the id of the current partner
 	const toId = window.usersInRoom.find((user) => user.handle === toHandle).id;
 
 	//Initialize the connection with handle
-	rtcConnectionsByHandle[toHandle] = new RTCPeerConnection(null);
+	rtcConnectionsByHandle[toHandle] = new RTCPeerConnection(stunServers);
 
 	//Get local media stream and add it to the connection
 	await getLocalMediaStream();

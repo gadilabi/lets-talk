@@ -11,9 +11,13 @@ templateTopNav.innerHTML = `
 		
 	}
 
+	#logo{
+		height: 80%;
+
+	}
+
 	#logo>img{
-		height:95%;
-		margin: 20px 0 0 20px;
+		height:100%;
 	}
 
 </style>

@@ -8,7 +8,7 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg2"
-   sodipodi:docname="video.svg"
+   sodipodi:docname="no_video.svg"
    inkscape:export-filename="/Users/andre/Pictures/clipart/video-icon.png"
    viewBox="0 0 400 360"
    inkscape:export-xdpi="90"
@@ -101,6 +101,10 @@
        transform="matrix(1.152 0 0 1.152 210.76 38.554)"
        sodipodi:cy="19.028849"
        sodipodi:cx="46.153847" />
+    <path
+       id="path865"
+       d="M 403.51371,-15.71001 7.7432773,334.58921"
+       style="fill:none;stroke:#e51400;stroke-width:29.348;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
   </g>
   <metadata
      id="metadata866">
@@ -117,7 +121,7 @@
             <dc:title>Openclipart</dc:title>
           </cc:Agent>
         </dc:publisher>
-        <dc:title>Video Camera Icon</dc:title>
+        <dc:title></dc:title>
         <dc:date>2011-09-13T14:03:33</dc:date>
         <dc:description>A minimalist video camera icon with two rectangles and two circles.</dc:description>
         <dc:source>https://openclipart.org/detail/160207/video-camera-icon-by-fab1</dc:source>

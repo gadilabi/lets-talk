@@ -5,6 +5,8 @@ templateOutput.innerHTML = `
 <style>
 
 	#component{
+		display: flex;
+		flex-direction: column;
 		width: 100%;
 		height: 100%;
 		background-color: #082a49;
@@ -69,17 +71,18 @@ templateOutput.innerHTML = `
 	}
 
 	#wrapper{
-		display: grid;
+		display: flex;
 		grid-template-columns: min-content auto;
 		grid-template-rows: 100%;
-		height:95%;
+		height:100%;
+		max-height:100%;
 		width:100%;
 
 	}
 
 
 	#videos{
-		height:95%;
+		height:100%;
 		position: relative;
 	}
 
@@ -94,17 +97,49 @@ templateOutput.innerHTML = `
 
 	.messages{
 		overflow: auto;
-		height: 95%;
+		height: 100%;
 		flex-grow: 1;
 		
 
 	}
 
-	.remote{
-		height:100%;
-
+	#controls{
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		visibility: hidden;
+		margin: 10px auto;
+		width: max-content;
 	}
 
+
+	.remote{
+		height:100%;
+		
+	}
+
+	#videos:hover > #controls {
+
+		visibility: visible;
+
+}
+
+	@media(max-width: 800px){
+		
+		#component{
+			flex-direction: column;
+
+		}
+
+		#videos{
+			width: 100%;
+			height: auto;
+
+		}
+		
+
+	}
 	
 
 </style>
@@ -125,11 +160,8 @@ templateOutput.innerHTML = `
 
 	<div id="output">
 
-	<div id="wrapper">
-		<div data-partner="everyone" class="messages"></div>
-			<div id="videos">
-				<video autoplay></video>
-			</div>
+		<div id="wrapper">
+			<div data-partner="everyone" class="messages"></div>
 		</div>
 
 	</div>
@@ -164,7 +196,7 @@ class Output extends HTMLElement {
 		this.localVideo = document.createElement('video');
 		this.localVideo.id = "local-stream";
 
-		this.videos = this.shadowRoot.querySelector("#videos");
+		this.videos = null;
 		this.output = this.shadowRoot.querySelector('#output');
 		window.partner = "everyone";
 		this.conversations = {
@@ -189,6 +221,17 @@ class Output extends HTMLElement {
 			this.addPartner(e.detail.handlesList);
 
 		});
+
+
+		this.addEventListener('hang-up', (e) => {
+
+			const partner = e.detail.partner;
+
+			that.conversations[partner].active = "text";
+			this.wrapper.querySelector('#videos').remove();
+		});
+
+
 
 
 		this.addEventListener('video-input', (e) => {
@@ -255,7 +298,10 @@ class Output extends HTMLElement {
 				const videoWrapper = document.createElement('DIV');
 				videoWrapper.id = "videos";
 
+				const controls = document.createElement('app-controls');
+				controls.id = "controls";
 
+				videoWrapper.appendChild(controls);
 				videoWrapper.appendChild(this.conversations[window.partner]['video']);
 				videoWrapper.appendChild(this.localVideo);
 

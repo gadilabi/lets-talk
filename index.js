@@ -107,6 +107,14 @@ io.on('connection', function (socket) {
 
 		});
 
+		socket.on('hang-up', (payload) => {
+
+			socket.to(payload.toId).emit('hang-up', {
+				from: payload.fromHandle
+			});
+
+		});
+
 
 	});
 

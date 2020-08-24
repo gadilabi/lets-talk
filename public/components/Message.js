@@ -5,14 +5,13 @@ templateMessage.innerHTML = `
 <style>
     #message {
 		margin: 20px;
-        max-width: 80%;
+        max-width: 85%;
         height: auto;
 		color: black;
 		background-color: #639199;
 		color:white;
 		border-radius: 5px;
-    	width: 90%;
-		padding-right: 10px;
+    	width: 50ch;
 		padding-bottom: 5px;
 	}
 
@@ -84,11 +83,14 @@ class Message extends HTMLElement {
 		this.handle.textContent = `${handle}`;
 		this.text.textContent = msg;
 
-		const data = new Date();
-		const hour = data.getHours();
-		const minutes = data.getMinutes();
+		const date = new Date();
+		const hour = date.getHours();
+		const minutes = date.getMinutes();
 
-		this.time.textContent = `${hour}:${minutes}`;
+		const hourString = (hour < 10) ? `0${hour}` : `${hour}`;
+		const minutesString = (minutes < 10) ? `0${minutes}` : `${minutes}`;
+
+		this.time.textContent = `${hourString}:${minutesString}`;
 
 
 	}
