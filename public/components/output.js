@@ -254,9 +254,11 @@ class Output extends HTMLElement {
 		this.addEventListener('hang-up', (e) => {
 
 			const partner = e.detail.partner;
-
 			that.conversations[partner].active = "text";
-			this.wrapper.querySelector('#videos').remove();
+
+			if (window.partner === partner) {
+				this.wrapper.querySelector('#videos').remove();
+			}
 		});
 
 

@@ -14,7 +14,10 @@ window.handle = null;
 window.handles = null;
 
 //Connect to server
-window.socket = io.connect(`http://localhost:3000/`);
+if (window.location.href === "http://localhost:3000/")
+	window.socket = io.connect(`http://localhost:3000/`);
+else
+	window.socket = io.connect(`https://letsstarttalking.herokuapp.com/`);
 
 window.rtcConnectionsByHandle = {};
 

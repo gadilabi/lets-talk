@@ -105,8 +105,10 @@ class CreateMenu extends HTMLElement {
 
 		this.shadowRoot.appendChild(templateCreateMenu.content.cloneNode(true));
 
+		//Set the starting display value
 		this.style.display = "none";
 
+		//Get relevant elements inside the component
 		this.warning = this.shadowRoot.querySelector('#warning');
 		this.inputHandle = this.shadowRoot.querySelector('#handle');
 		this.inputRoomName = this.shadowRoot.querySelector('#room-name');
@@ -119,13 +121,12 @@ class CreateMenu extends HTMLElement {
 
 		const that = this;
 
-		//If create menu is selected open it
+		//If create menu is selected from main menu then open it
 		this.addEventListener('next-menu', function (e) {
 			that.open();
 		});
 
-
-		//If user choose join
+		//When user clicks the create button
 		this.create.addEventListener('click', async function (e) {
 
 			//If no name was given do nothing

@@ -54,18 +54,16 @@ class Controls extends HTMLElement {
 
 		this.shadowRoot.appendChild(templateControls.content.cloneNode(true));
 
+		//Get relevant elements inside the component
 		this.hangUp = this.shadowRoot.querySelector('#hang-up');
-		window.videoControls = this;
 	}
 
 	connectedCallback() {
 
 		const that = this;
-		console.log("hello");
 
+		//Run when user clicks the hang up button
 		this.hangUp.addEventListener('click', (e) => {
-
-			console.log('hang up');
 
 			//Fire the hang up event to update relevant components
 			that.fireHangUpEvent(window.partner);
@@ -74,6 +72,7 @@ class Controls extends HTMLElement {
 			window.rtcConnectionsByHandle[window.partner].close();
 			window.rtcConnectionsByHandle[window.partner] = null;
 
+			//Find the id of the user we hang up on
 			const toId = window.usersInRoom.find((user) => user.handle === window.partner).id;
 
 			//Send the hang up event to partner
@@ -91,8 +90,10 @@ class Controls extends HTMLElement {
 	}
 
 
+	//Fired when we hang up
 	fireHangUpEvent(partner) {
 
+		//Send the partner we hang up on to relevant components to update
 		const event = new CustomEvent('hang-up', {
 
 			bubbles: true,

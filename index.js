@@ -1,16 +1,17 @@
 const express = require('express');
 const socket = require('socket.io');
-const User = require("./classes/User.js");
 const ejs = require('ejs');
 const {
 	v4: uuidv4
 } = require('uuid');
+const PORT = process.env.PORT || 3000;
+
 
 //App setup
 const app = express();
-const server = app.listen(3000, () => {
+const server = app.listen(PORT, () => {
 
-	console.log("listening on port 3000");
+	console.log(`Listening on port ${PORT}`);
 
 });
 

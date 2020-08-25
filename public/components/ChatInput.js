@@ -78,6 +78,7 @@ class ChatInput extends HTMLElement {
 
 		this.shadowRoot.appendChild(templateChatInput.content.cloneNode(true));
 
+		//Get relevant elements inside the component
 		this.input = this.shadowRoot.querySelector('#msg');
 		this.send = this.shadowRoot.querySelector('#send');
 
@@ -87,6 +88,7 @@ class ChatInput extends HTMLElement {
 
 		const that = this;
 
+		//Send message when user press enter
 		this.input.addEventListener('keydown', function (e) {
 			if (e.key === "Enter")
 				that.fireSendMsg(e);
@@ -94,6 +96,7 @@ class ChatInput extends HTMLElement {
 
 		});
 
+		//Send message when user clicks the send button
 		this.send.addEventListener('click', function (e) {
 
 			that.fireSendMsg(e);
@@ -102,22 +105,23 @@ class ChatInput extends HTMLElement {
 
 	}
 
+
+	//Run when msg sent
 	fireSendMsg() {
 
+		//Find the id of the user to whom the msg is meant
 		const to = (window.usersInRoom.find(user => user.handle === window.partner)) ?
 			window.usersInRoom.find(user => user.handle === window.partner).id :
 			"everyone";
 
-
-
-
+		//Send the msg to server
 		window.socket.emit("chat", {
 			msg: this.input.value,
 			handle: window.handle,
 			to: to
 		});
 
-
+		//Fire a send-msg event to app-output component 
 		const event = new CustomEvent('send-msg', {
 
 			//The values for bubble and composed allow event to bubble outside of shadow dom

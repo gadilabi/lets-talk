@@ -79,12 +79,11 @@ class Chat extends HTMLElement {
 
 		this.shadowRoot.appendChild(templateChat.content.cloneNode(true));
 
-
-
 		//Set starting display value as none
 		this.style.display = "none";
 		this.status = "close";
 
+		//Get relevant elements
 		this.output = this.shadowRoot.querySelector('app-output');
 		this.input = this.shadowRoot.querySelector('app-input');
 
