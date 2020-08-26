@@ -23,7 +23,7 @@ window.rtcConnectionsByHandle = {};
 
 window.stunServers = {
 	iceServers: [{
-		urls: "stun:stun.1und1.de:3478"
+		urls: "stun:stun.services.mozilla.com:3478"
 	}]
 };
 
