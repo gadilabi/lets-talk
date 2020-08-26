@@ -87,14 +87,26 @@ window.socket.on("offer", async (e) => {
 		return;
 
 	//Initialize the RTC connection
-	await establishConnection(remoteHandle, "passive");
 
 	//Create the remote description from the msg 
 	let desc = new RTCSessionDescription(sdp);
 
+	//Initialize the connection with handle
+	window.rtcConnectionsByHandle[remoteHandle] = new RTCPeerConnection(stunServers);
+
+	await establishConnection(remoteHandle, "passive");
+
 	//Set the remote description which will fire the track event
 	rtcConnectionsByHandle[remoteHandle].setRemoteDescription(desc)
-		.then(() => window.rtcConnectionsByHandle[remoteHandle].createAnswer())
+		.then(() => navigator.mediaDevices.getUserMedia(constraints))
+		.then((stream) => {
+			fireVideoInputEvent(window.handle, stream);
+			stream.getTracks().forEach((track) => rtcConnectionsByHandle[remoteHandle].addTrack(track, stream));
+		})
+		.then(() => {
+			window.rtcConnectionsByHandle[remoteHandle].createAnswer()
+
+		})
 		.then((answer) => window.rtcConnectionsByHandle[remoteHandle].setLocalDescription(answer))
 		.then(() => {
 
@@ -142,6 +154,25 @@ function fireHangUpEvent(partner) {
 
 }
 
+function fireVideoInputEvent(partner, stream) {
+
+	const event = new CustomEvent('video-input', {
+		bubbles: true,
+		composed: true,
+
+		detail: {
+			stream: stream,
+			partner: partner
+		}
+
+	});
+
+	const output = document.querySelector("app-chat").shadowRoot.querySelector("app-output");
+
+	output.dispatchEvent(event);
+
+}
+
 
 async function establishConnection(toHandle, role) {
 
@@ -151,8 +182,9 @@ async function establishConnection(toHandle, role) {
 	//Initialize the connection with handle
 	rtcConnectionsByHandle[toHandle] = new RTCPeerConnection(stunServers);
 
-	//Get local media stream and add it to the connection
-	await getLocalMediaStream();
+	if (role === "active")
+		//Get local media stream and add it to the connection
+		await getLocalMediaStream();
 
 	//Set the negotiations handler
 	rtcConnectionsByHandle[toHandle].onnegotiationneeded = (role === "active") ? handleNegotiation : null;
@@ -214,6 +246,7 @@ async function establishConnection(toHandle, role) {
 
 	function handleTrack(e) {
 
+		console.log("track");
 		//		const remoteVideo = document.querySelector("app-chat").shadowRoot.querySelector("app-output").shadowRoot.querySelector(`video[data-handle="${toHandle}"]`);
 
 		//		const remoteVideo = document.querySelector("app-chat").shadowRoot.querySelector("app-output").shadowRoot.querySelector(`video`);
@@ -224,24 +257,6 @@ async function establishConnection(toHandle, role) {
 
 	}
 
-	function fireVideoInputEvent(partner, stream) {
-
-		const event = new CustomEvent('video-input', {
-			bubbles: true,
-			composed: true,
-
-			detail: {
-				stream: stream,
-				partner: partner
-			}
-
-		});
-
-		const output = document.querySelector("app-chat").shadowRoot.querySelector("app-output");
-
-		output.dispatchEvent(event);
-
-	}
 
 	function handleIceCandidate(e) {
 
