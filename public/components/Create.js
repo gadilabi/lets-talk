@@ -68,7 +68,7 @@ templateCreateMenu.innerHTML = `
 	
 	#warning{
 		display:none;
-		color: black;
+		color: white;
 	}
 
 </style>
@@ -195,7 +195,7 @@ class CreateMenu extends HTMLElement {
 	}
 
 	showWarning(warning) {
-		this.warning.style.display = "inline";
+		this.warning.style.display = "inline-block";
 		this.warning.textContent = warning;
 		setTimeout(() => {
 			this.warning.style.display = "none";

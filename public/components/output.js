@@ -67,6 +67,7 @@ templateOutput.innerHTML = `
 
 	#video-btn>img{
 		height: 100%;
+		cursor: pointer;
 
 	}
 
@@ -223,6 +224,8 @@ class Output extends HTMLElement {
 
 		this.localVideo = document.createElement('video');
 		this.localVideo.id = "local-stream";
+		this.localVideo.muted = true;
+		this.localVideo.autoplay = true;
 
 		this.videos = null;
 		this.output = this.shadowRoot.querySelector('#output');
@@ -391,7 +394,7 @@ class Output extends HTMLElement {
 
 			const video = document.createElement('video');
 			video.dataset.handle = user;
-			video.setAttribute("autoplay", "");
+			video.autoplay = true;
 
 			//			if (user !== window.handle)
 			//				this.conversations[user][video] = video;
@@ -416,7 +419,7 @@ class Output extends HTMLElement {
 			const video = document.createElement('video');
 			video.dataset.handle = partner;
 			video.classList.add('remote');
-			video.setAttribute("autoplay", "");
+			video.autoplay = true;
 
 			//Add the text and video into the conversations list
 			this.conversations[partner] = {
