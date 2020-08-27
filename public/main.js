@@ -103,10 +103,7 @@ window.socket.on("offer", async (e) => {
 			fireVideoInputEvent(window.handle, stream);
 			stream.getTracks().forEach((track) => rtcConnectionsByHandle[remoteHandle].addTrack(track, stream));
 		})
-		.then(() => {
-			window.rtcConnectionsByHandle[remoteHandle].createAnswer()
-
-		})
+		.then(() => window.rtcConnectionsByHandle[remoteHandle].createAnswer())
 		.then((answer) => window.rtcConnectionsByHandle[remoteHandle].setLocalDescription(answer))
 		.then(() => {
 
