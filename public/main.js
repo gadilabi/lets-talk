@@ -27,6 +27,48 @@ window.stunServers = {
 	}]
 };
 
+window.socket.on('video-call-request', (msg) => {
+
+	const fromId = msg.fromId;
+	const fromHandle = msg.fromHandle;
+	const to = msg.to;
+
+	if (window.confirm(`Would you like to accept a video call from ${fromHandle}`)) {
+
+		const msg = {
+			pickedUp: true,
+			to: fromId
+
+		};
+
+		window.socket.emit('video-call-answer', msg);
+
+	} else {
+
+		const msg = {
+			pickedUp: false,
+			to: fromId
+
+		};
+
+		window.socket.emit('video-call-answer', msg);
+
+
+	}
+
+});
+
+window.socket.on('video-call-answer', (msg) => {
+
+	console.log(msg);
+
+	if (msg.pickedUp)
+		//Initiate the RTC connection with current partner as the caller (thus active)
+		establishConnection(window.partner, "active");
+
+
+});
+
 window.socket.on('hang-up', (msg) => {
 
 	console.log("receive hang up");
@@ -82,9 +124,6 @@ window.socket.on("offer", async (e) => {
 	const sdp = e.sdp;
 
 	console.log('offered');
-
-	if (!window.confirm(`Would you like to accept a video call from ${remoteHandle}`))
-		return;
 
 	//Initialize the RTC connection
 

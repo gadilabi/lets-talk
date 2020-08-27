@@ -116,6 +116,31 @@ io.on('connection', function (socket) {
 
 		});
 
+		socket.on('video-call-request', (msg) => {
+
+			const fromId = msg.fromId;
+			const fromHandle = msg.fromHandle;
+			const to = msg.to;
+
+			socket.to(to).emit('video-call-request', {
+				fromHandle,
+				fromId,
+				to
+			});
+
+		});
+
+		socket.on('video-call-answer', (msg) => {
+
+			const pickedUp = msg.pickedUp;
+			const to = msg.to;
+
+			socket.to(to).emit('video-call-answer', {
+				pickedUp
+			});
+
+		});
+
 
 	});
 

@@ -296,8 +296,16 @@ class Output extends HTMLElement {
 			if (window.partner === "everyone")
 				return;
 
-			//Initiate the RTC connection with current partner as the caller (thus active)
-			establishConnection(window.partner, "active");
+			const to = window.usersInRoom.find((user) => user.handle === window.partner).id;
+
+			window.socket.emit("video-call-request", {
+
+				fromHandle: window.handle,
+				fromId: window.socketId,
+				to: to
+
+			});
+
 
 		});
 
