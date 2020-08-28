@@ -44,6 +44,58 @@ templateChat.innerHTML = `
 
 	}
 
+	#request-call-prompt{
+		display: none;
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		right:0;
+		left:0;
+		margin: auto auto;
+		z-index: 100;
+		width: 200px;
+		height:150px;
+		background-color: #3a8c9a;
+		text-align:center;
+		color:white;
+
+	}
+
+	#prompt-text{
+		
+		margin-top: 20px;
+
+	}
+
+	#prompt-buttons{
+		display:flex;
+		justify-content: center;
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
+
+	#prompt-buttons>button{
+		padding: 5px;
+	}
+
+	#accept-call{
+		all: unset;
+		background-color: green;
+		margin-right:20px;
+		color:white;
+		width: 25%;
+
+	}
+
+	#decline-call{
+		all: unset;
+		background-color: crimson;
+		color:white;
+		width: 25%;
+	
+
+	}
+
 	@media(max-width: 800px){
 
 		#wrapper{
@@ -62,6 +114,25 @@ templateChat.innerHTML = `
 	<app-side-nav></app-side-nav>
 	<app-output></app-output>
 	<app-input></app-input>
+
+	<div data-to="" id="request-call-prompt">
+
+		<div id="prompt-text"></div>
+
+		<div id="prompt-buttons">
+			<button id="accept-call">
+				accpet
+			</button>
+
+			<button id="decline-call">
+				decline
+			</button>
+		
+
+		</div>
+
+
+	</div>
 
 </div>
 
@@ -86,7 +157,12 @@ class Chat extends HTMLElement {
 		//Get relevant elements
 		this.output = this.shadowRoot.querySelector('app-output');
 		this.input = this.shadowRoot.querySelector('app-input');
+		this.requestCallPormpt = this.shadowRoot.querySelector("#request-call-prompt");
+		this.promptText = this.shadowRoot.querySelector("#prompt-text");
+		this.acceptCallBtn = this.shadowRoot.querySelector("#accept-call");
+		this.declineCallBtn = this.shadowRoot.querySelector("#decline-call");
 
+		console.log(this.requestCallPormpt);
 	}
 
 	connectedCallback() {
@@ -99,6 +175,91 @@ class Chat extends HTMLElement {
 
 		});
 
+		this.acceptCallBtn.addEventListener("click", e => {
+
+			const toId = this.requestCallPormpt.dataset.to;
+
+			this.requestCallPormpt.style.display = "none";
+
+			const msg = {
+				pickedUp: true,
+				to: toId
+
+			};
+
+			window.socket.emit('video-call-answer', msg);
+
+
+		});
+
+		this.declineCallBtn.addEventListener("click", e => {
+
+			const toId = this.requestCallPormpt.dataset.to;
+
+			const msg = {
+				pickedUp: false,
+				to: toId
+
+			};
+
+			window.socket.emit('video-call-answer', msg);
+
+
+		});
+
+		this.addEventListener('video-call-request', e => {
+
+			const fromHandle = e.detail.fromHandle;
+
+			this.requestCallPormpt.style.display = "block";
+			this.promptText.textContent = `Would you like to accept a video call from ${fromHandle}?`;
+			this.requestCallPormpt.dataset.to = e.detail.fromId;
+
+
+		});
+
+
+	}
+
+	acceptCall(e) {
+
+		const toId = this.requestCallPormpt.dataset.to;
+
+		this.requestCallPormpt.style.display = "none";
+
+		const msg = {
+			pickedUp: true,
+			to: toId
+
+		};
+
+		window.socket.emit('video-call-answer', msg);
+
+
+	}
+
+	declineCall(e) {
+
+		const toId = this.requestCallPormpt.dataset.to;
+
+		const msg = {
+			pickedUp: false,
+			to: toId
+
+		};
+
+		window.socket.emit('video-call-answer', msg);
+
+
+	}
+
+	askToTakeCall(e) {
+
+		const fromHandle = e.detail.fromHandle;
+
+		this.requestCallPormpt.style.display = "block";
+		this.promptText.textContent = `Would you like to accept a video call from ${fromHandle}`;
+		this.requestCallPormpt.dataset.to = e.detail.fromId;
 
 	}
 

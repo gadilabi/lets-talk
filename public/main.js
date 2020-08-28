@@ -27,34 +27,35 @@ window.stunServers = {
 	}]
 };
 
-window.socket.on('video-call-request', (msg) => {
+function requestCallPrompt(msg) {
 
 	const fromId = msg.fromId;
 	const fromHandle = msg.fromHandle;
 	const to = msg.to;
 
-	if (window.confirm(`Would you like to accept a video call from ${fromHandle}`)) {
 
-		const msg = {
-			pickedUp: true,
-			to: fromId
+	const event = new CustomEvent('video-call-request', {
 
-		};
+		bubbles: true,
+		composed: true,
+		detail: {
+			fromId,
+			fromHandle,
+			to
+		}
+	});
 
-		window.socket.emit('video-call-answer', msg);
-
-	} else {
-
-		const msg = {
-			pickedUp: false,
-			to: fromId
-
-		};
-
-		window.socket.emit('video-call-answer', msg);
+	document.querySelector("app-chat").dispatchEvent(event);
 
 
-	}
+}
+
+window.socket.on('video-call-request', (msg) => {
+
+	requestCallPrompt(msg);
+
+	window.socket.emit('video-call-answer', msg);
+
 
 });
 
