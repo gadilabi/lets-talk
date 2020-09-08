@@ -15,6 +15,11 @@ templateUsersList.innerHTML = `
 
 	}
 
+	h3{
+		font-size: 25px;
+
+	}
+
 	#users{
 		display: flex;
 		flex-direction: column;
@@ -32,6 +37,7 @@ templateUsersList.innerHTML = `
 		background-color: #00539c;
 		cursor: pointer;
 		margin-bottom: 10px;
+		font-size: 20px;
 
 	}
 

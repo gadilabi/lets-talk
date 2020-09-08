@@ -9,15 +9,15 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg1"
    sodipodi:docname="logo.svg"
-   viewBox="0 0 368 100"
+   viewBox="0 0 803.8418 195.81197"
    sodipodi:version="0.32"
    _SVGFile__filename="oldscale/apps/kopete_all_away.svg"
    version="1.0"
    y="0"
    x="0"
-   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
-   width="73.6mm"
-   height="20mm">
+   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)"
+   width="607.62842"
+   height="148.01535">
   <defs
      id="defs847" />
   <sodipodi:namedview
@@ -31,14 +31,18 @@
      inkscape:window-x="-9"
      borderopacity="1.0"
      inkscape:current-layer="svg1"
-     inkscape:cx="141.37235"
-     inkscape:cy="23.810403"
+     inkscape:cx="299.90039"
+     inkscape:cy="100.89363"
      inkscape:window-width="1920"
      inkscape:pageopacity="0.0"
      inkscape:document-rotation="0"
      showgrid="false"
-     units="mm"
-     inkscape:window-maximized="1" />
+     units="px"
+     inkscape:window-maximized="1"
+     fit-margin-top="1"
+     fit-margin-left="1"
+     fit-margin-right="1"
+     fit-margin-bottom="1" />
   <metadata
      id="metadata844">
     <rdf:RDF>
@@ -54,7 +58,7 @@
             <dc:title>Openclipart</dc:title>
           </cc:Agent>
         </dc:publisher>
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
       <cc:License
          rdf:about="http://creativecommons.org/publicdomain/zero/1.0/">
@@ -69,33 +73,37 @@
   </metadata>
   <g
      id="text851"
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none" />
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+     transform="translate(-5.5871451,-6.1627081)" />
   <text
      xml:space="preserve"
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;"
-     x="111.21346"
-     y="65.552635"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:38.99739838px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:2.4373374"
+     x="255.54552"
+     y="142.85184"
      id="text860"><tspan
        sodipodi:role="line"
        id="tspan858"
-       x="111.21346"
-       y="65.552635"
-       style="font-size:32px;fill:#ffffff;fill-opacity:1;"><tspan
-   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:42.6667px;font-family:Elephant;-inkscape-font-specification:Elephant;fill:#ffffff;fill-opacity:1;"
+       x="255.54552"
+       y="142.85184"
+       style="font-size:77.99479675px;fill:#ffffff;fill-opacity:1;stroke-width:2.4373374"><tspan
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:103.9931488px;font-family:Elephant;-inkscape-font-specification:Elephant;fill:#ffffff;fill-opacity:1;stroke-width:2.4373374"
    id="tspan862">Let's</tspan> </tspan></text>
   <text
      xml:space="preserve"
-     style="font-size:16px;line-height:1.25;font-family:Elephant;-inkscape-font-specification:Elephant;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;"
-     x="233.27699"
-     y="66.004738"
-     id="text878"><tspan
+     style="font-size:38.99739838px;line-height:1.25;font-family:Elephant;-inkscape-font-specification:Elephant;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke-width:2.4373374"
+     x="553.05554"
+     y="143.95375"
+     id="text878"
+     inkscape:export-xdpi="96"
+     inkscape:export-ydpi="96"><tspan
        sodipodi:role="line"
        id="tspan876"
-       x="233.27699"
-       y="66.004738"
-       style="font-size:42.6667px;fill:#ffffff;fill-opacity:1;">Talk</tspan></text>
+       x="553.05554"
+       y="143.95375"
+       style="font-size:103.9931488px;fill:#ffffff;fill-opacity:1;stroke-width:2.4373374">Talk</tspan></text>
   <path
      id="path672"
-     style="fill:#ffffff;fill-rule:evenodd;stroke:#00539c;stroke-width:5.7685;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
-     d="m 56.520311,10.369875 c -25.79118,0 -46.7259983,10.284346 -46.7259983,22.949038 -1.76e-4,12.664339 20.9348183,22.949037 46.7259983,22.949037 5.26946,0 10.27764,-0.533123 15.00514,-1.323982 -4.27558,20.710624 -18.64697,28.465633 -18.64697,28.465633 0,0 14.53204,4.840483 32.05098,-16.274399 6.18036,-8.035693 7.90329,-14.943353 8.6059,-19.914469 6.02499,-3.862498 9.709199,-8.664143 9.709199,-13.90182 0,-12.664514 -20.934819,-22.949038 -46.724249,-22.949038 z" />
+     style="fill:#ffffff;fill-rule:evenodd;stroke:#00539c;stroke-width:14.05978107;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+     d="M 122.23984,8.3528072 C 59.378027,8.3528072 8.3528072,33.419231 8.3528072,64.287359 8.3523796,95.154625 59.378027,120.2219 122.23984,120.2219 c 12.84345,0 25.05007,-1.29939 36.57259,-3.22698 -10.42104,50.47878 -45.44897,69.38035 -45.44897,69.38035 0,0 35.41951,11.79789 78.11907,-39.66621 15.06362,-19.58569 19.26297,-36.42199 20.97547,-48.538276 14.68494,-9.414209 23.66461,-21.117439 23.66461,-33.883425 0,-30.867697 -51.02522,-55.9345518 -113.88277,-55.9345518 z"
+     inkscape:connector-curvature="0" />
 </svg>

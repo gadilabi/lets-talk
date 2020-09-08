@@ -27,25 +27,36 @@ templateChatInput.innerHTML = `
 
 	button{
 		all: unset;
+		display: flex;
 		text-align: center;
 		background-color: #00539CFF;
 		color:white;
 		width:100px;
-
+		justify-content: center;
 	}
+
+	button>img{
+		align-self: center;
+		height: 30px;
+}
 
 	@media(max-width: 800px){
 
 		button{
-			width: max-content;
 			font-size: 20px;
-			flex-grow: 1;
+			width: auto;
+			padding: 0 5px 0 5px;
+		}
+
+
+		#component{
+
+			align-items: start;
 
 		}
 
 		#wrapper{
 			margin-right: 10px;
-
 		}
 
 	}
@@ -57,7 +68,11 @@ templateChatInput.innerHTML = `
 	<div id="wrapper">
 
 		<input id="msg" placeholder="message" />
-		<button id="send">Send</button>
+		<button id="send">
+		
+		<img src="/images/send.svg">
+
+		</button>
 
 	</div>
 

@@ -38,36 +38,37 @@ templateOutput.innerHTML = `
 
 	#leave{
 		all: unset;
+		display:flex;
+		align-items:center;
+		justify-content: center;
 		background-color: #00539c;	
 		color: white;
-		width: 150px;
+		width: 75px;
+		padding: 0 5px 0 5px;
 		font-size: 25px;
 		text-align: center;
 		cursor: pointer;
 		position: relative;
+		height: 100%;
 	}
 
-	#leave::before{
-		content: url('images/leave.svg');
-		position: absolute;
-		left: 0;
-		width: 25px;
-		height:25px;
-
-	}
 
 	#video-btn{
 		all:unset;
+		display:flex;
+		justify-content: center;
+		align-items: center;
 		width: 75px;
-		height: 29.6px;
+		height: 35px;
 		margin-right:20px;
 		background-color: #00539c;
 		text-align:center;
+		cursor: pointer;
+	
 	}
 
 	#video-btn>img{
 		height: 100%;
-		cursor: pointer;
 
 	}
 
@@ -182,7 +183,7 @@ templateOutput.innerHTML = `
 			<img src="images/video.svg" />
 		</button>
 		<button id="leave">
-			Leave
+			<img src="/images/leave.svg">
 		</button>
 
 	</div>

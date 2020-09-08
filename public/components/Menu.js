@@ -16,11 +16,12 @@ templateMenu.innerHTML = `
 #logo{
 	display:flex;
 	justify-content:center;
+	margin: 50px 0 100px 0;
+
 }
 
 #logo>img{
-	height: 200px;
-	margin: 50px 0 100px 0;
+	height: 150px;
 
 }
 
@@ -28,12 +29,17 @@ templateMenu.innerHTML = `
 
 	#logo>img{
 
-		width: 400px;
+		width: 95vw;
 		height: auto;
-	margin: 50px 0 100px 0;
 
 	}
 
+	#logo{
+
+		margin: 35vw 0 75px 0;
+
+
+	}
 
 }
 
@@ -43,8 +49,10 @@ templateMenu.innerHTML = `
 
 
 <div id="component">
+	<div style="height:1px;"></div>
+
 	<div id="logo">
-		<img src="images/logo.svg" alt="" />
+		<img src="images/logo.png" alt="" />
 
 	</div>
 

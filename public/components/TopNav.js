@@ -14,7 +14,8 @@ templateTopNav.innerHTML = `
 	#logo{
 		height: 80%;
 		display:grid;
-		place-items: center;	
+		justify-items: start;	
+	
 	}
 
 	#logo>img{
@@ -23,7 +24,10 @@ templateTopNav.innerHTML = `
 
 	@media(max-width: 800px){
 		
+		#logo{
+			display:none;
 
+			}
 
 	}
 
@@ -32,7 +36,7 @@ templateTopNav.innerHTML = `
 <div id="component">
 
 	<div id="logo">
-		<img src="images/logo.svg" alt="" />
+		<img src="images/logo.png" alt="" />
 
 	</div>
 
