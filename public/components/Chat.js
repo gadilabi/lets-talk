@@ -54,8 +54,8 @@ templateChat.innerHTML = `
 		margin: auto auto;
 		z-index: 100;
 		width: 200px;
-		height:150px;
-		background-color: #3a8c9a;
+		height:130px;
+		background-color: #2a90a2;
 		text-align:center;
 		color:white;
 
@@ -80,7 +80,7 @@ templateChat.innerHTML = `
 
 	#accept-call{
 		all: unset;
-		background-color: green;
+		background-color: #03bc3e;
 		margin-right:20px;
 		color:white;
 		width: 25%;

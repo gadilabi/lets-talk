@@ -18,7 +18,6 @@ if (window.location.href === "http://localhost:3000/")
 	window.socket = io.connect(`http://localhost:3000/`);
 else
 	window.socket = io.connect(`https://letsstarttalking.herokuapp.com/`);
-
 window.rtcConnectionsByHandle = {};
 
 window.stunServers = {
@@ -338,3 +337,5 @@ async function establishConnection(toHandle, role) {
 	return 1;
 
 }
+
+
