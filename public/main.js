@@ -5,22 +5,25 @@ const constraints = {
 };
 
 //A list of objects {handle, id}
-window.usersByRoom = [];
+var  usersByRoom = [];
 
 //The handle of the user
-window.handle = null;
+var handle = null;
 
 //A list of the handles in the room
-window.handles = null;
+var handles = null;
+
+var  socket = null;
 
 //Connect to server
 if (window.location.href === "http://localhost:3000/")
-	window.socket = io.connect(`http://localhost:3000/`);
+	socket = io.connect(`http://localhost:3000/`);
 else
-	window.socket = io.connect(`https://letsstarttalking.herokuapp.com/`);
-window.rtcConnectionsByHandle = {};
+	socket = io.connect(`https://letsstarttalking.herokuapp.com/`);
 
-window.stunServers = {
+var rtcConnectionsByHandle = {};
+
+var stunServers = {
 	iceServers: [{
 		urls: "stun:stun.l.google.com:19302"
 	}]
