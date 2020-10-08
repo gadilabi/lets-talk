@@ -54,11 +54,11 @@ class Controls extends HTMLElement {
 
 		this.shadowRoot.appendChild(templateControls.content.cloneNode(true));
 
-		//Get relevant elements inside the component
-		this.hangUp = this.shadowRoot.querySelector('#hang-up');
 	}
 
 	connectedCallback() {
+		//Get relevant elements inside the component
+		this.hangUp = this.shadowRoot.querySelector('#hang-up');
 
 		const that = this;
 

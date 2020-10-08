@@ -53,11 +53,12 @@ templateChat.innerHTML = `
 		left:0;
 		margin: auto auto;
 		z-index: 100;
-		width: 200px;
-		height:130px;
-		background-color: #2a90a2;
+		width: max-content;
+		height:100px;
+		background-color: #1c5c68;
 		text-align:center;
 		color:white;
+		padding: 20px;
 
 	}
 
@@ -76,6 +77,7 @@ templateChat.innerHTML = `
 
 	#prompt-buttons>button{
 		padding: 5px;
+		cursor: pointer;
 	}
 
 	#accept-call{
@@ -194,8 +196,10 @@ class Chat extends HTMLElement {
 
 		this.declineCallBtn.addEventListener("click", e => {
 
+			this.requestCallPormpt.style.display = "none";
+			
 			const toId = this.requestCallPormpt.dataset.to;
-
+			
 			const msg = {
 				pickedUp: false,
 				to: toId

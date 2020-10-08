@@ -113,6 +113,7 @@ templateOutput.innerHTML = `
 		visibility: hidden;
 		margin: auto;
 		width: max-content;
+		z-index: 100;
 	}
 
 
