@@ -6,7 +6,7 @@ templateChat.innerHTML = `
 	
 	#wrapper{
 		width:100vw;
-		height:100vh;
+		min-height:100vh;
 		display: grid;
 		grid-template-columns: 20vw 80vw;
 		grid-template-areas:
@@ -15,7 +15,6 @@ templateChat.innerHTML = `
 			"side-nav input";
 
 		grid-template-rows: 20vh 70vh 10vh;
-
 	}
 
 	app-top-nav{
@@ -164,7 +163,6 @@ class Chat extends HTMLElement {
 		this.acceptCallBtn = this.shadowRoot.querySelector("#accept-call");
 		this.declineCallBtn = this.shadowRoot.querySelector("#decline-call");
 
-		console.log(this.requestCallPormpt);
 	}
 
 	connectedCallback() {

@@ -43,7 +43,6 @@ templateChatInput.innerHTML = `
 	@media(max-width: 800px){
 
 		button{
-			font-size: 20px;
 			width: auto;
 			padding: 0 5px 0 5px;
 		}
@@ -57,6 +56,10 @@ templateChatInput.innerHTML = `
 
 		#wrapper{
 			margin-right: 10px;
+		}
+
+		input{
+			width: 50px;
 		}
 
 	}
