@@ -25,19 +25,44 @@ templateMenu.innerHTML = `
 
 }
 
-@media(max-width: 600px){
+@media(max-width: 800px){
+
+	#component{
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
 
 	#logo>img{
 
-		width: 95vw;
+		width: 40vw;
+		height: auto;
+
+	}
+
+	#logo{
+		margin: 5vw 0 5vw 0;
+	}
+}
+
+@media(max-width: 450px){
+
+	#component{
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+
+	#logo>img{
+
+		width: 90vw;
 		height: auto;
 
 	}
 
 	#logo{
 
-		margin: 35vw 0 75px 0;
-
+		margin: 5vw 0 8vw 0;
 
 	}
 

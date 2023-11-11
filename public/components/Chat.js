@@ -14,7 +14,7 @@ templateChat.innerHTML = `
 			"side-nav output"
 			"side-nav input";
 
-		grid-template-rows: 20vh 70vh 10vh;
+		grid-template-rows: 20vh 70vh 1fr;
 	}
 
 	app-top-nav{
@@ -40,6 +40,7 @@ templateChat.innerHTML = `
 
 	app-input{
 		grid-area: input;
+		box-sizing: border-box;
 
 	}
 
@@ -100,7 +101,7 @@ templateChat.innerHTML = `
 	@media(max-width: 800px){
 
 		#wrapper{
-			grid-template-rows: 10vh 80vh 10vh;
+			grid-template-rows: 10vh 80vh 1fr;
 			grid-template-columns: 40vw 60vw;
 
 		}

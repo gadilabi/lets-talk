@@ -8,8 +8,6 @@ templateMainMenu.innerHTML = `
 
 		display: grid;
 		justify-content: center;
-		
-
 	}
     
 	#screen {

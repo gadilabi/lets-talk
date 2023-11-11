@@ -1,5 +1,9 @@
 body,
 * {
 	margin: 0;
-	overflow: hidden;
+	box-sizing: border-box;
+}
+
+body {
+	min-height: 100vh;
 }
