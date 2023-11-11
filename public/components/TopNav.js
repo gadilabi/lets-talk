@@ -12,8 +12,8 @@ templateTopNav.innerHTML = `
 	}
 
 	#logo{
-		height: 80%;
-		display:grid;
+		height: 100%;
+		display: flex;
 		justify-items: start;	
 	
 	}
@@ -24,11 +24,6 @@ templateTopNav.innerHTML = `
 
 	@media(max-width: 800px){
 		
-		#logo{
-			display:none;
-
-			}
-
 	}
 
 </style>
